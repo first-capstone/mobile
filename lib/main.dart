@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:union/pages/feed.dart';
+import 'package:union/pages/login.dart';
+import 'package:union/utils/secure_storage.dart';
 
 void main() {
   runApp(const UnionApp());
@@ -8,15 +12,19 @@ class UnionApp extends StatelessWidget {
   const UnionApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Union',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 118, 143, 248)),
-        useMaterial3: true,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const UnionHomePage(title: 'Union'),
+    return ResponsiveSizer(
+      builder: (context, orientation, screenType) {
+        return MaterialApp(
+          title: 'Union',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+                seedColor: const Color.fromARGB(255, 118, 143, 248)),
+            useMaterial3: true,
+          ),
+          debugShowCheckedModeBanner: false,
+          home: const UnionHomePage(title: 'Union'),
+        );
+      },
     );
   }
 }
@@ -31,14 +39,6 @@ class UnionHomePage extends StatefulWidget {
 }
 
 class _UnionHomePageState extends State<UnionHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,24 +46,32 @@ class _UnionHomePageState extends State<UnionHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      body: FutureBuilder(
+        future: SecureStorage().storage.read(key: "auto_login"),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            // ignore: unrelated_type_equality_checks
+            if (snapshot.data == null ||
+                snapshot.data == "" ||
+                snapshot.data == false) {
+              return const UnionLoginPage();
+            } else {
+              return const UnionFeedPage();
+            }
+          } else {
+            return Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('로그인 정보 확인중...'),
+                  SizedBox(height: 16.sp),
+                  const CircularProgressIndicator(),
+                ],
+              ),
+            );
+          }
+        },
       ),
     );
   }
