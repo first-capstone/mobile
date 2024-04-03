@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:union/pages/feed.dart';
-import 'package:union/pages/login.dart';
+import 'package:union/ui/pages/feed.dart';
+import 'package:union/ui/pages/login.dart';
 import 'package:union/utils/secure_storage.dart';
 
 void main() {
@@ -42,17 +42,13 @@ class _UnionHomePageState extends State<UnionHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
       body: FutureBuilder(
         future: SecureStorage().storage.read(key: "auto_login"),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            // ignore: unrelated_type_equality_checks
             if (snapshot.data == null ||
                 snapshot.data == "" ||
+                // ignore: unrelated_type_equality_checks
                 snapshot.data == false) {
               return const UnionLoginPage();
             } else {
