@@ -22,23 +22,23 @@ class UnionApp extends StatelessWidget {
             useMaterial3: true,
           ),
           debugShowCheckedModeBanner: false,
-          home: const UnionHomePage(title: 'Union'),
+          home: const UnionMainPage(title: 'Union'),
         );
       },
     );
   }
 }
 
-class UnionHomePage extends StatefulWidget {
-  const UnionHomePage({super.key, required this.title});
+class UnionMainPage extends StatefulWidget {
+  const UnionMainPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<UnionHomePage> createState() => _UnionHomePageState();
+  State<UnionMainPage> createState() => _UnionMainPageState();
 }
 
-class _UnionHomePageState extends State<UnionHomePage> {
+class _UnionMainPageState extends State<UnionMainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
