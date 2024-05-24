@@ -2,6 +2,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/material.dart';
 
+import 'package:union/utils/secure_storage.dart';
 import 'package:union/utils/model/response.dart';
 import 'package:union/utils/form_checker.dart';
 import 'package:union/ui/pages/register.dart';
@@ -169,12 +170,14 @@ class _UnionLoginPageState extends State<UnionLoginPage> {
                         _userIDController.text, _userPasswordController.text);
                     String resultTitle = "";
                     String resultContent = "";
+                    String token = "";
                     bool success = false;
                     switch (result.statusCode) {
                       case 200:
                         success = true;
                         resultTitle = "로그인 성공";
                         resultContent = result.message;
+                        token = result.accessToken ?? "";
                         break;
                       case 401:
                         resultTitle = "로그인 실패";
@@ -190,6 +193,12 @@ class _UnionLoginPageState extends State<UnionLoginPage> {
                         break;
                     }
                     if (success) {
+                      SecureStorage()
+                          .storage
+                          .write(key: "auto_login", value: "true");
+                      SecureStorage()
+                          .storage
+                          .write(key: "access_token", value: token);
                       Navigator.pushAndRemoveUntil(
                         // ignore: use_build_context_synchronously
                         context,
