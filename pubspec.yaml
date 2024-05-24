@@ -38,6 +38,8 @@ dependencies:
   responsive_sizer: ^3.3.1
   flutter_secure_storage: ^9.0.0
   shared_preferences: ^2.2.2
+  font_awesome_flutter: ^10.7.0
+  http: ^1.2.1
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +66,7 @@ flutter:
   assets:
     - assets/images/logo_blue.png
     - assets/images/logo_pink.png
+    - assets/images/logo_blue_no.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
