@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:union/ui/pages/feed.dart';
+import 'package:union/ui/pages/home.dart';
 import 'package:union/ui/pages/login.dart';
 import 'package:union/utils/secure_storage.dart';
 
@@ -46,13 +47,10 @@ class _UnionMainPageState extends State<UnionMainPage> {
         future: SecureStorage().storage.read(key: "auto_login"),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.data == null ||
-                snapshot.data == "" ||
-                // ignore: unrelated_type_equality_checks
-                snapshot.data == false) {
+            if (snapshot.data != "true") {
               return const UnionLoginPage();
             } else {
-              return const UnionFeedPage();
+              return const UnionHomePage();
             }
           } else {
             return Center(
