@@ -2,7 +2,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/material.dart';
 
+import 'package:union/utils/model/response.dart';
 import 'package:union/utils/form_checker.dart';
+import 'package:union/ui/dialog/dialog.dart';
+import 'package:union/utils/requester.dart';
 
 class UnionRegisterPage extends StatefulWidget {
   const UnionRegisterPage({super.key});
@@ -111,7 +114,54 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed:
+                          _userIDController.text != "" && errorIDText == null
+                              ? () async {
+                                  GeneralResponse result = await checkDuplicate(
+                                      "id", _userIDController.text);
+                                  String resultTitle = "";
+                                  String resultContent = "";
+                                  switch (result.statusCode) {
+                                    case 200:
+                                      resultTitle = "축하합니다!";
+                                      resultContent = result.message;
+                                      break;
+                                    case 409:
+                                      resultTitle = "중복된 아이디";
+                                      resultContent = result.message;
+                                      break;
+                                    case 422:
+                                      resultTitle = "클라이언트 오류";
+                                      resultContent = result.message;
+                                      break;
+                                    case 500:
+                                      resultTitle = "서버 내부 오류";
+                                      resultContent = result.message;
+                                      break;
+                                  }
+
+                                  createSmoothDialog(
+                                      // ignore: use_build_context_synchronously
+                                      context,
+                                      resultTitle,
+                                      Text(resultContent),
+                                      TextButton(
+                                        child: const Text("닫기"),
+                                        onPressed: () async {
+                                          Navigator.pop(context);
+                                          try {
+                                            ScaffoldMessenger.of(context)
+                                                .hideCurrentSnackBar();
+                                          } catch (e) {
+                                            return;
+                                          }
+                                          return;
+                                        },
+                                      ),
+                                      null,
+                                      false);
+                                }
+                              : null,
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all<Color>(
                           Color.fromARGB(
@@ -301,7 +351,54 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: _userNicknameController.text != "" &&
+                              errorNicknameText == null
+                          ? () async {
+                              GeneralResponse result = await checkDuplicate(
+                                  "nickname", _userNicknameController.text);
+                              String resultTitle = "";
+                              String resultContent = "";
+                              switch (result.statusCode) {
+                                case 200:
+                                  resultTitle = "축하합니다!";
+                                  resultContent = result.message;
+                                  break;
+                                case 409:
+                                  resultTitle = "중복된 닉네임";
+                                  resultContent = result.message;
+                                  break;
+                                case 422:
+                                  resultTitle = "클라이언트 오류";
+                                  resultContent = result.message;
+                                  break;
+                                case 500:
+                                  resultTitle = "서버 내부 오류";
+                                  resultContent = result.message;
+                                  break;
+                              }
+
+                              createSmoothDialog(
+                                  // ignore: use_build_context_synchronously
+                                  context,
+                                  resultTitle,
+                                  Text(resultContent),
+                                  TextButton(
+                                    child: const Text("닫기"),
+                                    onPressed: () async {
+                                      Navigator.pop(context);
+                                      try {
+                                        ScaffoldMessenger.of(context)
+                                            .hideCurrentSnackBar();
+                                      } catch (e) {
+                                        return;
+                                      }
+                                      return;
+                                    },
+                                  ),
+                                  null,
+                                  false);
+                            }
+                          : null,
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all<Color>(
                           Color.fromARGB(
