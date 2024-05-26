@@ -199,12 +199,11 @@ class _UnionLoginPageState extends State<UnionLoginPage> {
                       SecureStorage()
                           .storage
                           .write(key: "access_token", value: token);
-                      Navigator.pushAndRemoveUntil(
-                        // ignore: use_build_context_synchronously
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const UnionHomePage()),
-                        (route) => false,
+                          builder: (context) => const UnionHomePage(),
+                        ),
                       );
                     } else {
                       createSmoothDialog(
