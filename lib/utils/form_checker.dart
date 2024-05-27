@@ -39,7 +39,10 @@ String? validateNickname(String? value) {
 }
 
 String? validatePhone(String? value) {
-  if (value == null || value.isEmpty || value.trim() == "") {
+  RegExp exp = RegExp(r"^010-[0-9]{4}-[0-9]{4}$");
+  if (!exp.hasMatch(value ?? "")) {
+    return "전화번호 형식이 옳지 않습니다.";
+  } else if (value == null || value.isEmpty || value.trim() == "") {
     return "이 항목을 입력해주세요.";
   } else if (value.length != 13) {
     return "전화번호는 13자 입니다.";
