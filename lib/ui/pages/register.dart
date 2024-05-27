@@ -66,560 +66,566 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/images/logo_blue_no.png",
-              width: 30.w,
-            ),
-            SizedBox(height: 3.h),
-            Container(
-              width: 80.w,
-              padding: EdgeInsets.only(left: 4.w, right: 2.w),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(10),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 5.h),
+              Image.asset(
+                "assets/images/logo_blue_no.png",
+                width: 30.w,
               ),
-              child: Form(
-                key: _userIDTextFormKey,
-                onChanged: () {
-                  setState(() {
-                    errorIDText = validateID(_userIDController.text);
-                  });
-                },
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _userIDController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: -1.w),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
+              SizedBox(height: 3.h),
+              Container(
+                width: 80.w,
+                padding: EdgeInsets.only(left: 4.w, right: 2.w),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Form(
+                  key: _userIDTextFormKey,
+                  onChanged: () {
+                    setState(() {
+                      errorIDText = validateID(_userIDController.text);
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _userIDController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: -1.w),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                            icon: const FaIcon(
+                              FontAwesomeIcons.solidUser,
+                            ),
+                            iconColor: Colors.grey[500],
+                            labelText: "아이디",
+                            floatingLabelStyle: TextStyle(
+                              fontSize: 18.sp,
+                            ),
+                            hintText: "아이디 입력",
                           ),
-                          icon: const FaIcon(
-                            FontAwesomeIcons.solidUser,
-                          ),
-                          iconColor: Colors.grey[500],
-                          labelText: "아이디",
-                          floatingLabelStyle: TextStyle(
-                            fontSize: 18.sp,
-                          ),
-                          hintText: "아이디 입력",
                         ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed:
-                          _userIDController.text != "" && errorIDText == null
-                              ? () async {
-                                  GeneralResponse result = await checkDuplicate(
-                                      "id", _userIDController.text);
-                                  String resultTitle = "";
-                                  String resultContent = "";
-                                  switch (result.statusCode) {
-                                    case 200:
-                                      resultTitle = "축하합니다!";
-                                      resultContent = result.message;
-                                      break;
-                                    case 409:
-                                      resultTitle = "중복된 아이디";
-                                      resultContent = result.message;
-                                      break;
-                                    case 422:
-                                      resultTitle = "클라이언트 오류";
-                                      resultContent = result.message;
-                                      break;
-                                    case 500:
-                                      resultTitle = "서버 내부 오류";
-                                      resultContent = result.message;
-                                      break;
-                                  }
-
-                                  createSmoothDialog(
-                                      // ignore: use_build_context_synchronously
-                                      context,
-                                      resultTitle,
-                                      Text(resultContent),
-                                      TextButton(
-                                        child: const Text("닫기"),
-                                        onPressed: () async {
-                                          Navigator.pop(context);
-                                          try {
-                                            ScaffoldMessenger.of(context)
-                                                .hideCurrentSnackBar();
-                                          } catch (e) {
-                                            return;
-                                          }
-                                          return;
-                                        },
-                                      ),
-                                      null,
-                                      false);
+                      TextButton(
+                        onPressed: _userIDController.text != "" &&
+                                errorIDText == null
+                            ? () async {
+                                GeneralResponse result = await checkDuplicate(
+                                    "id", _userIDController.text);
+                                String resultTitle = "";
+                                String resultContent = "";
+                                switch (result.statusCode) {
+                                  case 200:
+                                    resultTitle = "축하합니다!";
+                                    resultContent = result.message;
+                                    break;
+                                  case 409:
+                                    resultTitle = "중복된 아이디";
+                                    resultContent = result.message;
+                                    break;
+                                  case 422:
+                                    resultTitle = "클라이언트 오류";
+                                    resultContent = result.message;
+                                    break;
+                                  case 500:
+                                    resultTitle = "서버 내부 오류";
+                                    resultContent = result.message;
+                                    break;
                                 }
-                              : null,
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(
-                          Color.fromARGB(
-                              _userIDController.text != "" &&
-                                      errorIDText == null
-                                  ? 0xFF
-                                  : 0x88,
-                              118,
-                              143,
-                              248),
-                        ),
-                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                      child: SizedBox(
-                        child: Center(
-                          child: Text(
-                            "중복 확인",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.zero,
-              child: Text(
-                errorIDText ?? "",
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 16.sp,
-                ),
-              ),
-            ),
-            Container(
-              width: 80.w,
-              padding: EdgeInsets.only(left: 4.w, right: 2.w),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Form(
-                key: _userPasswordTextFormKey,
-                onChanged: () {
-                  setState(() {
-                    errorPasswordText =
-                        validatePassword(_userPasswordController.text);
-                  });
-                },
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _userPasswordController,
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: -1.w),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          icon: const FaIcon(
-                            FontAwesomeIcons.lock,
-                          ),
-                          iconColor: Colors.grey[500],
-                          labelText: "비밀번호",
-                          floatingLabelStyle: TextStyle(
-                            fontSize: 18.sp,
-                          ),
-                          hintText: "비밀번호 입력",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.zero,
-              child: Text(
-                errorPasswordText ?? "",
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 16.sp,
-                ),
-              ),
-            ),
-            Container(
-              width: 80.w,
-              padding: EdgeInsets.only(left: 4.w, right: 2.w),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Form(
-                key: _userPasswordConfirmTextFormKey,
-                onChanged: () {
-                  setState(() {
-                    errorPasswordConfirmText = validatePasswordConfirm(
-                        _userPasswordController.text,
-                        _userPasswordConfirmController.text);
-                  });
-                },
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _userPasswordConfirmController,
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: -1.w),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          icon: const FaIcon(
-                            FontAwesomeIcons.lock,
-                          ),
-                          iconColor: Colors.grey[500],
-                          labelText: "비밀번호 재입력",
-                          floatingLabelStyle: TextStyle(
-                            fontSize: 18.sp,
-                          ),
-                          hintText: "비밀번호를 다시 입력",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.zero,
-              child: Text(
-                errorPasswordConfirmText ?? "",
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 16.sp,
-                ),
-              ),
-            ),
-            Container(
-              width: 80.w,
-              padding: EdgeInsets.only(left: 4.w, right: 2.w),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Form(
-                key: _userNicknameTextFormKey,
-                onChanged: () {
-                  setState(() {
-                    errorNicknameText =
-                        validateNickname(_userNicknameController.text);
-                  });
-                },
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _userNicknameController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: -1.w),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          icon: const FaIcon(
-                            FontAwesomeIcons.tags,
-                          ),
-                          iconColor: Colors.grey[500],
-                          labelText: "닉네임",
-                          floatingLabelStyle: TextStyle(
-                            fontSize: 18.sp,
-                          ),
-                          hintText: "닉네임 입력",
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: _userNicknameController.text != "" &&
-                              errorNicknameText == null
-                          ? () async {
-                              GeneralResponse result = await checkDuplicate(
-                                  "nickname", _userNicknameController.text);
-                              String resultTitle = "";
-                              String resultContent = "";
-                              switch (result.statusCode) {
-                                case 200:
-                                  resultTitle = "축하합니다!";
-                                  resultContent = result.message;
-                                  break;
-                                case 409:
-                                  resultTitle = "중복된 닉네임";
-                                  resultContent = result.message;
-                                  break;
-                                case 422:
-                                  resultTitle = "클라이언트 오류";
-                                  resultContent = result.message;
-                                  break;
-                                case 500:
-                                  resultTitle = "서버 내부 오류";
-                                  resultContent = result.message;
-                                  break;
-                              }
 
-                              createSmoothDialog(
-                                  // ignore: use_build_context_synchronously
-                                  context,
-                                  resultTitle,
-                                  Text(resultContent),
-                                  TextButton(
-                                    child: const Text("닫기"),
-                                    onPressed: () async {
-                                      Navigator.pop(context);
-                                      try {
-                                        ScaffoldMessenger.of(context)
-                                            .hideCurrentSnackBar();
-                                      } catch (e) {
+                                createSmoothDialog(
+                                    // ignore: use_build_context_synchronously
+                                    context,
+                                    resultTitle,
+                                    Text(resultContent),
+                                    TextButton(
+                                      child: const Text("닫기"),
+                                      onPressed: () async {
+                                        Navigator.pop(context);
+                                        try {
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentSnackBar();
+                                        } catch (e) {
+                                          return;
+                                        }
                                         return;
-                                      }
-                                      return;
-                                    },
-                                  ),
-                                  null,
-                                  false);
-                            }
-                          : null,
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(
-                          Color.fromARGB(
-                              _userNicknameController.text != "" &&
-                                      errorNicknameText == null
-                                  ? 0xFF
-                                  : 0x88,
-                              118,
-                              143,
-                              248),
-                        ),
-                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                                      },
+                                    ),
+                                    null,
+                                    false);
+                              }
+                            : null,
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all<Color>(
+                            Color.fromARGB(
+                                _userIDController.text != "" &&
+                                        errorIDText == null
+                                    ? 0xFF
+                                    : 0x88,
+                                118,
+                                143,
+                                248),
+                          ),
+                          shape:
+                              WidgetStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
                         ),
-                      ),
-                      child: SizedBox(
-                        child: Center(
-                          child: Text(
-                            "중복 확인",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.sp,
+                        child: SizedBox(
+                          child: Center(
+                            child: Text(
+                              "중복 확인",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.zero,
-              child: Text(
-                errorNicknameText ?? "",
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 16.sp,
+              Padding(
+                padding: EdgeInsets.zero,
+                child: Text(
+                  errorIDText ?? "",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16.sp,
+                  ),
                 ),
               ),
-            ),
-            Container(
-              width: 80.w,
-              padding: EdgeInsets.only(left: 4.w, right: 2.w),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Form(
-                key: _userPhoneTextFormKey,
-                onChanged: () {
-                  setState(() {
-                    errorPhoneText = validatePhone(_userPhoneController.text);
-                  });
-                },
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _userPhoneController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: -1.w),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          icon: FaIcon(
-                            FontAwesomeIcons.mobileScreenButton,
-                            size: Adaptive.sp(25),
-                          ),
-                          iconColor: Colors.grey[500],
-                          labelText: "전화번호",
-                          floatingLabelStyle: TextStyle(
-                            fontSize: 18.sp,
-                          ),
-                          hintText: "000-0000-0000",
-                        ),
-                      ),
-                    ),
-                  ],
+              Container(
+                width: 80.w,
+                padding: EdgeInsets.only(left: 4.w, right: 2.w),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.zero,
-              child: Text(
-                errorPhoneText ?? "",
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 16.sp,
-                ),
-              ),
-            ),
-            Container(
-              width: 80.w,
-              padding: EdgeInsets.only(left: 4.w, right: 2.w),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Form(
-                key: _userEmailTextFormKey,
-                onChanged: () {
-                  setState(() {
-                    errorEmailText = validateEmail(_userEmailController.text);
-                  });
-                },
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _userEmailController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: -1.w),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          icon: const FaIcon(
-                            FontAwesomeIcons.solidEnvelope,
-                          ),
-                          iconColor: Colors.grey[500],
-                          labelText: "이메일",
-                          floatingLabelStyle: TextStyle(
-                            fontSize: 18.sp,
-                          ),
-                          hintText: "20240101@example.ac.kr",
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(
-                          Color.fromARGB(
-                              _userEmailController.text != "" &&
-                                      errorEmailText == null
-                                  ? 0xFF
-                                  : 0x88,
-                              118,
-                              143,
-                              248),
-                        ),
-                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                child: Form(
+                  key: _userPasswordTextFormKey,
+                  onChanged: () {
+                    setState(() {
+                      errorPasswordText =
+                          validatePassword(_userPasswordController.text);
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _userPasswordController,
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: -1.w),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                            icon: const FaIcon(
+                              FontAwesomeIcons.lock,
+                            ),
+                            iconColor: Colors.grey[500],
+                            labelText: "비밀번호",
+                            floatingLabelStyle: TextStyle(
+                              fontSize: 18.sp,
+                            ),
+                            hintText: "비밀번호 입력",
                           ),
                         ),
                       ),
-                      child: SizedBox(
-                        child: Center(
-                          child: Text(
-                            "메일 인증",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.sp,
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.zero,
+                child: Text(
+                  errorPasswordText ?? "",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ),
+              Container(
+                width: 80.w,
+                padding: EdgeInsets.only(left: 4.w, right: 2.w),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Form(
+                  key: _userPasswordConfirmTextFormKey,
+                  onChanged: () {
+                    setState(() {
+                      errorPasswordConfirmText = validatePasswordConfirm(
+                          _userPasswordController.text,
+                          _userPasswordConfirmController.text);
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _userPasswordConfirmController,
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: -1.w),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                            icon: const FaIcon(
+                              FontAwesomeIcons.lock,
+                            ),
+                            iconColor: Colors.grey[500],
+                            labelText: "비밀번호 재입력",
+                            floatingLabelStyle: TextStyle(
+                              fontSize: 18.sp,
+                            ),
+                            hintText: "비밀번호를 다시 입력",
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.zero,
+                child: Text(
+                  errorPasswordConfirmText ?? "",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ),
+              Container(
+                width: 80.w,
+                padding: EdgeInsets.only(left: 4.w, right: 2.w),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Form(
+                  key: _userNicknameTextFormKey,
+                  onChanged: () {
+                    setState(() {
+                      errorNicknameText =
+                          validateNickname(_userNicknameController.text);
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _userNicknameController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: -1.w),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                            icon: const FaIcon(
+                              FontAwesomeIcons.tags,
+                            ),
+                            iconColor: Colors.grey[500],
+                            labelText: "닉네임",
+                            floatingLabelStyle: TextStyle(
+                              fontSize: 18.sp,
+                            ),
+                            hintText: "닉네임 입력",
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: _userNicknameController.text != "" &&
+                                errorNicknameText == null
+                            ? () async {
+                                GeneralResponse result = await checkDuplicate(
+                                    "nickname", _userNicknameController.text);
+                                String resultTitle = "";
+                                String resultContent = "";
+                                switch (result.statusCode) {
+                                  case 200:
+                                    resultTitle = "축하합니다!";
+                                    resultContent = result.message;
+                                    break;
+                                  case 409:
+                                    resultTitle = "중복된 닉네임";
+                                    resultContent = result.message;
+                                    break;
+                                  case 422:
+                                    resultTitle = "클라이언트 오류";
+                                    resultContent = result.message;
+                                    break;
+                                  case 500:
+                                    resultTitle = "서버 내부 오류";
+                                    resultContent = result.message;
+                                    break;
+                                }
+
+                                createSmoothDialog(
+                                    // ignore: use_build_context_synchronously
+                                    context,
+                                    resultTitle,
+                                    Text(resultContent),
+                                    TextButton(
+                                      child: const Text("닫기"),
+                                      onPressed: () async {
+                                        Navigator.pop(context);
+                                        try {
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentSnackBar();
+                                        } catch (e) {
+                                          return;
+                                        }
+                                        return;
+                                      },
+                                    ),
+                                    null,
+                                    false);
+                              }
+                            : null,
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all<Color>(
+                            Color.fromARGB(
+                                _userNicknameController.text != "" &&
+                                        errorNicknameText == null
+                                    ? 0xFF
+                                    : 0x88,
+                                118,
+                                143,
+                                248),
+                          ),
+                          shape:
+                              WidgetStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                        child: SizedBox(
+                          child: Center(
+                            child: Text(
+                              "중복 확인",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.zero,
-              child: Text(
-                errorEmailText ?? "",
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 16.sp,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all<Color>(
-                  Color.fromARGB(
-                      _userIDController.text != "" &&
-                              _userPasswordController.text != "" &&
-                              _userPasswordConfirmController.text != "" &&
-                              _userNicknameController.text != "" &&
-                              _userPhoneController.text != "" &&
-                              _userEmailController.text != "" &&
-                              errorIDText == null &&
-                              errorPasswordText == null &&
-                              errorPasswordConfirmText == null &&
-                              errorNicknameText == null &&
-                              errorPhoneText == null &&
-                              errorEmailText == null
-                          ? 0xFF
-                          : 0x88,
-                      118,
-                      143,
-                      248),
-                ),
-                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    ],
                   ),
                 ),
               ),
-              child: SizedBox(
-                width: 70.w,
-                height: 25.sp,
-                child: Center(
-                  child: Text(
-                    "회원가입",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
+              Padding(
+                padding: EdgeInsets.zero,
+                child: Text(
+                  errorNicknameText ?? "",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ),
+              Container(
+                width: 80.w,
+                padding: EdgeInsets.only(left: 4.w, right: 2.w),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Form(
+                  key: _userPhoneTextFormKey,
+                  onChanged: () {
+                    setState(() {
+                      errorPhoneText = validatePhone(_userPhoneController.text);
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _userPhoneController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: -1.w),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                            icon: FaIcon(
+                              FontAwesomeIcons.mobileScreenButton,
+                              size: Adaptive.sp(25),
+                            ),
+                            iconColor: Colors.grey[500],
+                            labelText: "전화번호",
+                            floatingLabelStyle: TextStyle(
+                              fontSize: 18.sp,
+                            ),
+                            hintText: "000-0000-0000",
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.zero,
+                child: Text(
+                  errorPhoneText ?? "",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ),
+              Container(
+                width: 80.w,
+                padding: EdgeInsets.only(left: 4.w, right: 2.w),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Form(
+                  key: _userEmailTextFormKey,
+                  onChanged: () {
+                    setState(() {
+                      errorEmailText = validateEmail(_userEmailController.text);
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _userEmailController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: -1.w),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                            icon: const FaIcon(
+                              FontAwesomeIcons.solidEnvelope,
+                            ),
+                            iconColor: Colors.grey[500],
+                            labelText: "이메일",
+                            floatingLabelStyle: TextStyle(
+                              fontSize: 18.sp,
+                            ),
+                            hintText: "20240101@example.ac.kr",
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all<Color>(
+                            Color.fromARGB(
+                                _userEmailController.text != "" &&
+                                        errorEmailText == null
+                                    ? 0xFF
+                                    : 0x88,
+                                118,
+                                143,
+                                248),
+                          ),
+                          shape:
+                              WidgetStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                        child: SizedBox(
+                          child: Center(
+                            child: Text(
+                              "메일 인증",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.zero,
+                child: Text(
+                  errorEmailText ?? "",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    Color.fromARGB(
+                        _userIDController.text != "" &&
+                                _userPasswordController.text != "" &&
+                                _userPasswordConfirmController.text != "" &&
+                                _userNicknameController.text != "" &&
+                                _userPhoneController.text != "" &&
+                                _userEmailController.text != "" &&
+                                errorIDText == null &&
+                                errorPasswordText == null &&
+                                errorPasswordConfirmText == null &&
+                                errorNicknameText == null &&
+                                errorPhoneText == null &&
+                                errorEmailText == null
+                            ? 0xFF
+                            : 0x88,
+                        118,
+                        143,
+                        248),
+                  ),
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                child: SizedBox(
+                  width: 70.w,
+                  height: 25.sp,
+                  child: Center(
+                    child: Text(
+                      "회원가입",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
