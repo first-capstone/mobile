@@ -20,3 +20,9 @@ Future<GeneralResponse> checkDuplicate(String path, String data) async {
   String responseBody = utf8.decoder.convert(response.bodyBytes);
   return GeneralResponse.fromJson(json.decode(responseBody));
 }
+
+Future<UnivResponse> getUnivNameList() async {
+  http.Response response = await http.get(Uri.parse("$host/univ/"));
+  String responseBody = utf8.decoder.convert(response.bodyBytes);
+  return UnivResponse.fromJson(json.decode(responseBody));
+}
