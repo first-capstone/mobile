@@ -1,3 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:union/utils/secure_storage.dart';
@@ -14,6 +16,33 @@ class _UnionHomepageState extends State<UnionHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          title: Image.asset("assets/images/logo_blue_no.png", width: 13.w),
+          leading: IconButton(
+            onPressed: () {},
+            icon: const FaIcon(
+              FontAwesomeIcons.bars,
+            ),
+            iconSize: 21.sp,
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const FaIcon(
+                FontAwesomeIcons.search,
+              ),
+              iconSize: 21.sp,
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const FaIcon(
+                FontAwesomeIcons.bell,
+              ),
+              iconSize: 21.sp,
+            ),
+          ]),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
