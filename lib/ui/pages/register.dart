@@ -32,6 +32,8 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
   String? errorPasswordConfirmText;
   String? errorNicknameText;
   String? errorPhoneText;
+  bool checkDuplicateID = false;
+  bool checkDuplicateNickname = false;
 
   @override
   void initState() {
@@ -85,6 +87,7 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
                   onChanged: () {
                     setState(() {
                       errorIDText = validateID(_userIDController.text);
+                      checkDuplicateID = false;
                     });
                   },
                   child: Row(
@@ -120,6 +123,9 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
                                 String resultContent = "";
                                 switch (result.statusCode) {
                                   case 200:
+                                    setState(() {
+                                      checkDuplicateID = true;
+                                    });
                                     resultTitle = "축하합니다!";
                                     resultContent = result.message;
                                     break;
@@ -163,7 +169,8 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
                           backgroundColor: WidgetStateProperty.all<Color>(
                             Color.fromARGB(
                                 _userIDController.text != "" &&
-                                        errorIDText == null
+                                        errorIDText == null &&
+                                        checkDuplicateID == false
                                     ? 0xFF
                                     : 0x88,
                                 118,
@@ -323,6 +330,7 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
                     setState(() {
                       errorNicknameText =
                           validateNickname(_userNicknameController.text);
+                      checkDuplicateNickname = false;
                     });
                   },
                   child: Row(
@@ -358,6 +366,9 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
                                 String resultContent = "";
                                 switch (result.statusCode) {
                                   case 200:
+                                    setState(() {
+                                      checkDuplicateNickname = true;
+                                    });
                                     resultTitle = "축하합니다!";
                                     resultContent = result.message;
                                     break;
@@ -401,7 +412,8 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
                           backgroundColor: WidgetStateProperty.all<Color>(
                             Color.fromARGB(
                                 _userNicknameController.text != "" &&
-                                        errorNicknameText == null
+                                        errorNicknameText == null &&
+                                        checkDuplicateNickname == false
                                     ? 0xFF
                                     : 0x88,
                                 118,
@@ -494,14 +506,28 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
                 ),
               ),
               TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const UnionRegisterSecondPage(),
-                    ),
-                  );
-                },
+                onPressed: _userIDController.text != "" &&
+                        _userPasswordController.text != "" &&
+                        _userPasswordConfirmController.text != "" &&
+                        _userNicknameController.text != "" &&
+                        _userPhoneController.text != "" &&
+                        errorIDText == null &&
+                        errorPasswordText == null &&
+                        errorPasswordConfirmText == null &&
+                        errorNicknameText == null &&
+                        errorPhoneText == null &&
+                        checkDuplicateID &&
+                        checkDuplicateNickname
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const UnionRegisterSecondPage(),
+                          ),
+                        );
+                      }
+                    : null,
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all<Color>(
                     Color.fromARGB(
@@ -514,7 +540,9 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
                                 errorPasswordText == null &&
                                 errorPasswordConfirmText == null &&
                                 errorNicknameText == null &&
-                                errorPhoneText == null
+                                errorPhoneText == null &&
+                                checkDuplicateID &&
+                                checkDuplicateNickname
                             ? 0xFF
                             : 0x88,
                         118,
