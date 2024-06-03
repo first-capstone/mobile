@@ -197,13 +197,13 @@ class _UnionLoginPageState extends State<UnionLoginPage> {
                             break;
                         }
                         if (success) {
-                          SecureStorage()
+                          await SecureStorage()
                               .storage
                               .write(key: "auto_login", value: "true");
-                          SecureStorage()
+                          await SecureStorage()
                               .storage
                               .write(key: "access_token", value: token);
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const UnionHomePage(),
@@ -297,7 +297,7 @@ class _UnionLoginPageState extends State<UnionLoginPage> {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const UnionRegisterPage()));

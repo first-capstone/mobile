@@ -519,7 +519,7 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
                         checkDuplicateID &&
                         checkDuplicateNickname
                     ? () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) =>

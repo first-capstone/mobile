@@ -52,7 +52,7 @@ class _UnionHomepageState extends State<UnionHomePage> {
             TextButton(
               onPressed: () async {
                 SecureStorage().storage.deleteAll();
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const UnionLoginPage(),
