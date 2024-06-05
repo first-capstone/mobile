@@ -1,13 +1,16 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:flutter/material.dart';
 
-import 'package:union/ui/widgets/univ_dropdown.dart';
+import 'package:union/ui/widgets/univ_input.dart';
 import 'package:union/utils/form_checker.dart';
+import 'package:union/utils/model/response.dart';
 import 'package:union/utils/requester.dart';
 
 class UnionRegisterSecondPage extends StatefulWidget {
-  const UnionRegisterSecondPage({super.key});
+  const UnionRegisterSecondPage({Key? key}) : super(key: key);
 
   @override
   State<UnionRegisterSecondPage> createState() =>
@@ -16,15 +19,29 @@ class UnionRegisterSecondPage extends StatefulWidget {
 
 class _UnionRegisterSecondPageState extends State<UnionRegisterSecondPage> {
   final _userEmailTextFormKey = GlobalKey<FormState>();
+  late StreamController<List<UniversityOnlyName>> _univStream;
+
   late TextEditingController _userEmailController;
 
   String? errorEmailText;
+
+  void _loadUnivs() async {
+    await getUnivNameList().then((univs) {
+      List<UniversityOnlyName> _univs = [];
+      for (var it in univs.univList!) {
+        _univs.add(it);
+      }
+      _univStream.add(_univs);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     _userEmailController = TextEditingController();
     errorEmailText = null;
+    _univStream = StreamController<List<UniversityOnlyName>>();
+    _loadUnivs();
   }
 
   @override
@@ -33,43 +50,31 @@ class _UnionRegisterSecondPageState extends State<UnionRegisterSecondPage> {
     _userEmailController.dispose();
   }
 
+  void checkErrorEmail(String email) {
+    setState(() {
+      errorEmailText = validateEmail(email);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: FutureBuilder(
-          future: getUnivNameList(),
+        child: StreamBuilder(
+          stream: _univStream.stream,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                  ],
-                ),
+                child: CircularProgressIndicator(),
               );
             } else if (snapshot.hasError) {
               return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text("Error occured: ${snapshot.error.toString()}")
-                  ],
-                ),
+                child: Text("Error occured: ${snapshot.error.toString()}"),
               );
             } else {
-              if (snapshot.data!.statusCode == 404) {
+              if (snapshot.data!.isEmpty) {
                 return const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("No Data Available"),
-                    ],
-                  ),
+                  child: Text("No Data Available"),
                 );
               } else {
                 return Center(
@@ -91,10 +96,7 @@ class _UnionRegisterSecondPageState extends State<UnionRegisterSecondPage> {
                         child: Form(
                           key: _userEmailTextFormKey,
                           onChanged: () {
-                            setState(() {
-                              errorEmailText =
-                                  validateEmail(_userEmailController.text);
-                            });
+                            checkErrorEmail(_userEmailController.text);
                           },
                           child: Row(
                             children: [
@@ -125,13 +127,14 @@ class _UnionRegisterSecondPageState extends State<UnionRegisterSecondPage> {
                                   backgroundColor:
                                       WidgetStateProperty.all<Color>(
                                     Color.fromARGB(
-                                        _userEmailController.text != "" &&
-                                                errorEmailText == null
-                                            ? 0xFF
-                                            : 0x88,
-                                        118,
-                                        143,
-                                        248),
+                                      (_userEmailController.text.isNotEmpty &&
+                                              errorEmailText == null)
+                                          ? 0xFF
+                                          : 0x88,
+                                      118,
+                                      143,
+                                      248,
+                                    ),
                                   ),
                                   shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
@@ -166,7 +169,17 @@ class _UnionRegisterSecondPageState extends State<UnionRegisterSecondPage> {
                           ),
                         ),
                       ),
-                      UnivDropdown(universities: snapshot.data!.univList)
+                      Container(
+                        width: 80.w,
+                        padding: EdgeInsets.only(left: 4.w, right: 2.w),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: UnivInput(
+                          universities: snapshot.data,
+                        ),
+                      ),
                     ],
                   ),
                 );

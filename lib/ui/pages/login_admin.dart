@@ -10,14 +10,14 @@ import 'package:union/ui/dialog/dialog.dart';
 import 'package:union/utils/requester.dart';
 import 'package:union/ui/pages/home.dart';
 
-class UnionLoginPage extends StatefulWidget {
-  const UnionLoginPage({super.key});
+class UnionAdminLoginpage extends StatefulWidget {
+  const UnionAdminLoginpage({super.key});
 
   @override
-  State<UnionLoginPage> createState() => _UnionLoginPageState();
+  State<UnionAdminLoginpage> createState() => _UnionAdminLoginpageState();
 }
 
-class _UnionLoginPageState extends State<UnionLoginPage> {
+class _UnionAdminLoginpageState extends State<UnionAdminLoginpage> {
   final _userIDTextFormKey = GlobalKey<FormState>();
   final _userPasswordTextFormKey = GlobalKey<FormState>();
   late TextEditingController _userIDController;
@@ -53,10 +53,10 @@ class _UnionLoginPageState extends State<UnionLoginPage> {
             children: [
               SizedBox(height: 15.h),
               Image.asset(
-                "assets/images/logo_blue.png",
-                width: 55.w,
+                "assets/images/logo_pink.png",
+                width: 50.w,
               ),
-              SizedBox(height: 2.h),
+              SizedBox(height: 5.h),
 
               // 입력 필드
               Container(
