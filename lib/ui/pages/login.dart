@@ -253,7 +253,7 @@ class _UnionLoginPageState extends State<UnionLoginPage> {
                   ),
                 ),
                 child: SizedBox(
-                  width: 70.w,
+                  width: 74.w,
                   height: 25.sp,
                   child: Center(
                     child: Text(
