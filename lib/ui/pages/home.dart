@@ -44,7 +44,7 @@ class _UnionHomepageState extends State<UnionHomePage> {
                     color: Colors.red,
                   ),
                 ),
-                otherAccountsPictures: const <Widget>[],
+                // otherAccountsPictures: const <Widget>[],
                 accountName: const Text('유니온'),
                 accountEmail: const Text('union@email.com'),
                 decoration: BoxDecoration(

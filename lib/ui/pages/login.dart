@@ -52,9 +52,12 @@ class _UnionLoginPageState extends State<UnionLoginPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 15.h),
-              Image.asset(
-                "assets/images/logo_blue.png",
-                width: 55.w,
+              Hero(
+                tag: "img_login_register_logo",
+                child: Image.asset(
+                  "assets/images/logo_blue.png",
+                  width: 55.w,
+                ),
               ),
               SizedBox(height: 2.h),
 

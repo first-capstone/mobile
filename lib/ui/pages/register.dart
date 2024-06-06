@@ -70,9 +70,12 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 5.h),
-              Image.asset(
-                "assets/images/logo_blue_no.png",
-                width: 30.w,
+              Hero(
+                tag: "img_login_register_logo",
+                child: Image.asset(
+                  "assets/images/logo_blue_no.png",
+                  width: 30.w,
+                ),
               ),
               SizedBox(height: 3.h),
               Container(
