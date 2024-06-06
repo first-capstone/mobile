@@ -32,10 +32,17 @@ class _UnionHomepageState extends State<UnionHomePage> {
               ),
               child: UserAccountsDrawerHeader(
                 arrowColor: Colors.transparent,
-                currentAccountPicture: const CircleAvatar(
+                currentAccountPicture: CircleAvatar(
                   // 현재 계정 이미지 set
-                  backgroundImage: AssetImage('assets/profile.png'),
+                  // backgroundImage: AssetImage('assets/profile.png'),
+                  backgroundImage: const NetworkImage(
+                    "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+                  ),
                   backgroundColor: Colors.white,
+                  onBackgroundImageError: (exception, stackTrace) => const Icon(
+                    Icons.error,
+                    color: Colors.red,
+                  ),
                 ),
                 otherAccountsPictures: const <Widget>[],
                 accountName: const Text('유니온'),
