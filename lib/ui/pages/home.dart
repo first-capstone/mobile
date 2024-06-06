@@ -1,10 +1,9 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:union/ui/widgets/article_preview.dart';
 import 'package:union/ui/widgets/drawer.dart';
-import 'package:union/utils/secure_storage.dart';
-import 'package:union/ui/pages/login.dart';
 
 class UnionHomePage extends StatefulWidget {
   const UnionHomePage({super.key});
@@ -22,8 +21,11 @@ class _UnionHomepageState extends State<UnionHomePage> {
       key: _scaffoldKey,
       drawer: const UnionDrawer(),
       appBar: AppBar(
+          scrolledUnderElevation: 0,
+          elevation: 0,
+          shadowColor: Colors.transparent,
           centerTitle: true,
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
           title: Image.asset("assets/images/logo_blue_no.png", width: 13.w),
           leading: IconButton(
             onPressed: () {
@@ -50,25 +52,9 @@ class _UnionHomepageState extends State<UnionHomePage> {
               iconSize: 21.sp,
             ),
           ]),
-      body: Center(
+      body: const SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text("This is Home Page!"),
-            TextButton(
-              onPressed: () async {
-                SecureStorage().storage.deleteAll();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const UnionLoginPage(),
-                  ),
-                );
-              },
-              child: const Text("storage 값 제거"),
-            )
-          ],
+          children: <Widget>[ArticlePreview()],
         ),
       ),
     );
