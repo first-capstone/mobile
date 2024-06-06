@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ArticleDetail extends StatefulWidget {
-  const ArticleDetail({super.key});
+  const ArticleDetail({
+    super.key,
+  });
 
   @override
   State<ArticleDetail> createState() => _ArticleDetailState();
@@ -16,7 +18,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Article Detail'),
+        title: const Text('게시글 상세보기'),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -58,46 +60,48 @@ class _ArticleDetailState extends State<ArticleDetail> {
                       const SizedBox(height: 16),
                       Image.network(
                           "https://yt3.googleusercontent.com/QNwqVIbPkuOR1hRHDd6hxo_4t6w-A4Qb3pMuPHQ74EY-QQrqcYlxluQqRbpPZC4H4xAxvbG_-Jw=s900-c-k-c0x00ffffff-no-rj"),
-                      const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        child: Text(
-                          '울 학교 나섬이 너무 귀엽지 않아 ㅠㅠ??',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        child: Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.star_border),
-                              color: Colors.grey,
-                              onPressed: () => {},
-                            ),
-                            const SizedBox(width: 8),
-                            const Text('UP 25687개',
-                                style: TextStyle(color: Colors.grey)),
-                            const Spacer(),
-                            IconButton(
-                              icon: const FaIcon(FontAwesomeIcons.solidBell),
-                              color: Colors.red,
-                              onPressed: () => {},
-                            ),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.star_border),
+                            color: Colors.grey,
+                            onPressed: () => {},
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            icon: const FaIcon(
+                                FontAwesomeIcons.circleExclamation),
+                            color: Colors.red,
+                            onPressed: () => {},
+                          ),
+                        ],
                       ),
                       const Padding(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        child: Divider(),
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                        child: Text('UP 25687개',
+                            style: TextStyle(color: Colors.grey)),
                       ),
+                      const Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              '울 학교 나섬이 너무 귀엽지 않아 ㅠㅠ??',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(),
                       _buildComment(
                         avatarUrl:
                             "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
                         username: '유니버스 1 (충남대학교)',
-                        text: '너네도 귀여운건가 나섬이?? 나도 가지고싶다!',
+                        text: '너네도 키링같은거 나눠줘?? 나도 가지고싶다!',
                         timestamp: '03/27 21:05',
                         replies: [
                           _buildReply(
@@ -106,6 +110,13 @@ class _ArticleDetailState extends State<ArticleDetail> {
                             username: '유니 (클로버)',
                             text: '다음에 우리 만나게 되면 내가 선물할게',
                             timestamp: '03/27 21:06',
+                          ),
+                          _buildReply(
+                            avatarUrl:
+                                "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+                            username: '유니버스 1 (충남대학교)',
+                            text: '헐 미친 고마워!',
+                            timestamp: '03/27 21:08',
                           ),
                         ],
                       ),
@@ -126,10 +137,6 @@ class _ArticleDetailState extends State<ArticleDetail> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    // border: Border.all(
-                    //   color: Colors.grey[200] as Color,
-                    //   width: 1,
-                    // ),
                     color: Colors.grey[200],
                   ),
                   child: Row(

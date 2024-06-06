@@ -52,10 +52,11 @@ class _UnionHomepageState extends State<UnionHomePage> {
               iconSize: 21.sp,
             ),
           ]),
-      body: const SingleChildScrollView(
-        child: Column(
-          children: <Widget>[ArticlePreview()],
-        ),
+      body: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (BuildContext context, int index) {
+          return const ArticlePreview();
+        },
       ),
     );
   }
