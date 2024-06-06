@@ -38,7 +38,7 @@ class _UnionHomepageState extends State<UnionHomePage> {
             IconButton(
               onPressed: () {},
               icon: const FaIcon(
-                FontAwesomeIcons.search,
+                FontAwesomeIcons.magnifyingGlass,
               ),
               iconSize: 21.sp,
             ),
