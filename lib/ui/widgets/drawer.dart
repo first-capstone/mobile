@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:union/utils/secure_storage.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class UnionDrawer extends StatelessWidget {
@@ -79,7 +80,7 @@ class UnionDrawer extends StatelessWidget {
                       ListTile(
                         minTileHeight: 0.2.h,
                         title: Text(
-                          "정보수정", //이메일,연락처,이름,학교
+                          "정보수정",
                           style: TextStyle(fontSize: 0.35.cm),
                         ),
                         onTap: () {},
@@ -90,7 +91,15 @@ class UnionDrawer extends StatelessWidget {
                           "로그아웃",
                           style: TextStyle(fontSize: 0.35.cm),
                         ),
-                        onTap: () {},
+                        onTap: () async {
+                          await SecureStorage()
+                              .storage
+                              .delete(key: "auto_login");
+
+                          await SecureStorage()
+                              .storage
+                              .delete(key: "access_token");
+                        },
                       ),
                       ListTile(
                         minTileHeight: 0.2.h,
