@@ -240,7 +240,16 @@ class _ArticleDetailState extends State<ArticleDetail> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.reply, size: 20, color: Colors.grey),
+          Transform(
+            alignment: Alignment.center,
+            transform: Matrix4.rotationZ(3),
+            child: const Icon(
+              FontAwesomeIcons.reply,
+              size: 20,
+              color: Colors.grey,
+              textDirection: TextDirection.rtl,
+            ),
+          ),
           const SizedBox(width: 8),
           CircleAvatar(
             radius: 15,
