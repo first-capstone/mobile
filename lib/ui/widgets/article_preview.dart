@@ -53,7 +53,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
         Row(
           children: [
             IconButton(
-              icon: const Icon(FontAwesomeIcons.star),
+              icon: const Icon(FontAwesomeIcons.heart),
               color: Colors.grey,
               onPressed: () => {},
             ),
