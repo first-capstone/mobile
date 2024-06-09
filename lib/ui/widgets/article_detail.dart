@@ -218,7 +218,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                       const Divider(),
                       comments.isEmpty
                           ? const Center(
-                              child: Text('댓글이 없습니다.'),
+                              child: Text('댓글이 없습니다. 첫번째 댓글을 남겨보세요!'),
                             )
                           : Column(
                               children: [

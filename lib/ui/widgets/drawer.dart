@@ -6,6 +6,7 @@ import 'package:union/utils/data/dummy.dart';
 import 'package:union/utils/secure_storage.dart';
 
 class UnionDrawer extends StatelessWidget {
+  final String dummyDefaultProfileImageUrl = "";
   const UnionDrawer({
     super.key,
   });
@@ -28,7 +29,7 @@ class UnionDrawer extends StatelessWidget {
               currentAccountPicture: CircleAvatar(
                 // 현재 계정 이미지 set
                 // backgroundImage: AssetImage('assets/profile.png'),
-                backgroundImage: const NetworkImage(
+                backgroundImage: NetworkImage(
                   dummyDefaultProfileImageUrl,
                 ),
                 backgroundColor: Colors.white,
