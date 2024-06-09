@@ -27,8 +27,9 @@ final List<Article> dummyArticleList = [
           author: Profile(
             school: "충남대학교",
             avatarUrl: dummyDefaultProfileImageUrl,
-            username: '유니버스 1',
+            username: 'sanstv',
           ),
+          isAnnonymous: true,
           text: '너네도 키링같은거 나눠줘?? 나도 가지고싶다!',
           timestamp: '03/27 21:05',
           replies: [
@@ -45,8 +46,9 @@ final List<Article> dummyArticleList = [
               author: Profile(
                 school: "충남대학교",
                 avatarUrl: dummyDefaultProfileImageUrl,
-                username: '유니버스 1',
+                username: 'sanstv',
               ),
+              isAnnonymous: true,
               text: '헐 미친 고마워!',
               timestamp: '03/27 21:08',
             ),
@@ -56,8 +58,9 @@ final List<Article> dummyArticleList = [
           author: Profile(
             school: "한양대학교",
             avatarUrl: dummyDefaultProfileImageUrl,
-            username: '유니버스 2',
+            username: 'ppapdancemaster',
           ),
+          isAnnonymous: true,
           text: '나섬이 정말 귀엽다!',
           timestamp: '03/27 21:18',
         ),
