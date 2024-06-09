@@ -53,12 +53,12 @@ class _ArticlePreviewState extends State<ArticlePreview> {
         Row(
           children: [
             IconButton(
-              icon: const Icon(Icons.star_border),
+              icon: const Icon(FontAwesomeIcons.star),
               color: Colors.grey,
               onPressed: () => {},
             ),
             IconButton(
-              icon: const Icon(Icons.chat_bubble_outline),
+              icon: const Icon(FontAwesomeIcons.comment),
               color: Colors.grey,
               onPressed: () => {
                 Navigator.of(context, rootNavigator: true).push(

@@ -65,7 +65,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                       Row(
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.star_border),
+                            icon: const Icon(FontAwesomeIcons.star),
                             color: Colors.grey,
                             onPressed: () => {},
                           ),
