@@ -102,6 +102,21 @@ class _ArticleDetailState extends State<ArticleDetail> {
                       const SizedBox(height: 16),
                       if (widget.imageUrl != null)
                         Image.network(widget.imageUrl!),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: Text(
+                              widget.content,
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       Row(
                         children: [
                           IconButton(
@@ -132,21 +147,6 @@ class _ArticleDetailState extends State<ArticleDetail> {
                             horizontal: 16, vertical: 0),
                         child: Text('UP $upCount개',
                             style: const TextStyle(color: Colors.grey)),
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Text(
-                              widget.content,
-                              style: const TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                       const Divider(),
                       comments.isEmpty
