@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:union/ui/pages/login.dart';
 import 'package:union/utils/secure_storage.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -99,6 +100,13 @@ class UnionDrawer extends StatelessWidget {
                           await SecureStorage()
                               .storage
                               .delete(key: "access_token");
+
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const UnionLoginPage(),
+                            ),
+                          );
                         },
                       ),
                       ListTile(
