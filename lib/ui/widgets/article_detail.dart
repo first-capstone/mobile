@@ -376,7 +376,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                   children: [
                     Text(
                       isAnnonymous
-                          ? "유니버스 ${anonymousCommentNumbers[index]}"
+                          ? "유니버스 ${anonymousCommentNumbers[index]} ($school)"
                           : "$username ($school)",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
@@ -433,7 +433,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
               children: [
                 Text(
                   isAnnonymous
-                      ? "유니버스 ${anonymousReplyNumbers[commentIndex]![replyIndex]}"
+                      ? "유니버스 ${anonymousReplyNumbers[commentIndex]![replyIndex]} ($school)"
                       : "$username ($school)",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
