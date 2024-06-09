@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:union/ui/pages/login.dart';
-import 'package:union/utils/secure_storage.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
+import 'package:union/ui/pages/login.dart';
+import 'package:union/utils/data/dummy.dart';
+import 'package:union/utils/secure_storage.dart';
 
 class UnionDrawer extends StatelessWidget {
   const UnionDrawer({
@@ -27,7 +29,7 @@ class UnionDrawer extends StatelessWidget {
                 // 현재 계정 이미지 set
                 // backgroundImage: AssetImage('assets/profile.png'),
                 backgroundImage: const NetworkImage(
-                  "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+                  dummyDefaultProfileImageUrl,
                 ),
                 backgroundColor: Colors.white,
                 onBackgroundImageError: (exception, stackTrace) => const Icon(
@@ -102,6 +104,7 @@ class UnionDrawer extends StatelessWidget {
                               .delete(key: "access_token");
 
                           Navigator.pushReplacement(
+                            // ignore: use_build_context_synchronously
                             context,
                             MaterialPageRoute(
                               builder: (context) => const UnionLoginPage(),

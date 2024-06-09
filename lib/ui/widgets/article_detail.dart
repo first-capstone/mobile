@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:union/utils/data/dummy.dart';
 import 'package:union/utils/model/comment.dart';
 import 'package:union/utils/model/profile.dart';
 
@@ -220,8 +221,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                               Comment(
                                 author: Profile(
                                   school: "배재대학교",
-                                  avatarUrl:
-                                      "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+                                  avatarUrl: dummyDefaultProfileImageUrl,
                                   username: '유니온',
                                 ),
                                 text: _commentController.text,
