@@ -17,8 +17,11 @@ final List<Article> dummyArticleList = [
       isReported: false,
       isStarred: false,
       upCount: 10,
-      imageUrl:
-          "https://yt3.googleusercontent.com/QNwqVIbPkuOR1hRHDd6hxo_4t6w-A4Qb3pMuPHQ74EY-QQrqcYlxluQqRbpPZC4H4xAxvbG_-Jw=s900-c-k-c0x00ffffff-no-rj",
+      imageUrls: [
+        "https://yt3.googleusercontent.com/QNwqVIbPkuOR1hRHDd6hxo_4t6w-A4Qb3pMuPHQ74EY-QQrqcYlxluQqRbpPZC4H4xAxvbG_-Jw=s900-c-k-c0x00ffffff-no-rj",
+        "https://www.pcu.ac.kr/images/site/kor/content/295_img_1.png",
+        "https://remote.pcu.ac.kr/start/image/logo.png"
+      ],
       comments: [
         Comment(
           author: Profile(

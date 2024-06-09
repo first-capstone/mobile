@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:union/ui/widgets/article_detail.dart';
 import 'package:union/utils/model/comment.dart';
 
@@ -11,7 +13,7 @@ class ArticlePreview extends StatefulWidget {
     required this.username,
     required this.school,
     required this.timestamp,
-    this.imageUrl,
+    required this.imageUrls,
     required this.content,
     required this.upCount,
     required this.isUpped,
@@ -23,7 +25,7 @@ class ArticlePreview extends StatefulWidget {
   final String username;
   final String school;
   final String timestamp;
-  final String? imageUrl;
+  final List<String> imageUrls;
   final String content;
   final int upCount;
   final bool isUpped;
@@ -38,7 +40,38 @@ class _ArticlePreviewState extends State<ArticlePreview> {
   bool isUpped = false;
   bool isReported = false;
   int upCount = 0;
-  // List<Comment> comments = [];
+  int activeIndex = 0;
+
+  Widget imageSlider(path, index) => Container(
+        width: MediaQuery.of(context).size.width <
+                MediaQuery.of(context).size.height
+            ? MediaQuery.of(context).size.width
+            : MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.width <
+                MediaQuery.of(context).size.height
+            ? MediaQuery.of(context).size.width
+            : MediaQuery.of(context).size.height,
+        color: Colors.white,
+        child: Image.network(
+          path,
+          fit: BoxFit.contain,
+        ),
+      );
+
+  Widget indicator() => Container(
+        margin: const EdgeInsets.only(bottom: 20.0),
+        alignment: Alignment.bottomCenter,
+        child: AnimatedSmoothIndicator(
+          activeIndex: activeIndex,
+          count: widget.imageUrls.length,
+          effect: JumpingDotEffect(
+            dotHeight: 6,
+            dotWidth: 6,
+            activeDotColor: Colors.white,
+            dotColor: Colors.white.withOpacity(0.6),
+          ),
+        ),
+      );
 
   @override
   void initState() {
@@ -81,7 +114,30 @@ class _ArticlePreviewState extends State<ArticlePreview> {
           ],
         ),
         const SizedBox(height: 16),
-        if (widget.imageUrl != null) Image.network(widget.imageUrl!),
+        if (widget.imageUrls.isNotEmpty)
+          Stack(alignment: Alignment.bottomCenter, children: <Widget>[
+            CarouselSlider.builder(
+              options: CarouselOptions(
+                height: MediaQuery.of(context).size.width <
+                        MediaQuery.of(context).size.height
+                    ? MediaQuery.of(context).size.width
+                    : MediaQuery.of(context).size.height,
+                enableInfiniteScroll: false,
+                initialPage: 0,
+                viewportFraction: 1,
+                enlargeCenterPage: false,
+                onPageChanged: (index, reason) => setState(() {
+                  activeIndex = index;
+                }),
+              ),
+              itemCount: widget.imageUrls.length,
+              itemBuilder: (context, index, realIndex) {
+                final url = widget.imageUrls[index];
+                return imageSlider(url, index);
+              },
+            ),
+            Align(alignment: Alignment.bottomCenter, child: indicator())
+          ]),
         Row(
           children: [
             IconButton(
@@ -108,7 +164,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
                       username: widget.username,
                       school: widget.school,
                       timestamp: widget.timestamp,
-                      imageUrl: widget.imageUrl,
+                      imageUrls: widget.imageUrls,
                       content: widget.content,
                       upCount: upCount,
                       isStarred: isUpped,
@@ -142,7 +198,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
                   username: widget.username,
                   school: widget.school,
                   timestamp: widget.timestamp,
-                  imageUrl: widget.imageUrl,
+                  imageUrls: widget.imageUrls,
                   content: widget.content,
                   upCount: upCount,
                   isStarred: isUpped,

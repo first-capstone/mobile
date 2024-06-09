@@ -65,7 +65,7 @@ class _UnionHomepageState extends State<UnionHomePage> {
                   username: dummyArticleList[index].author.username,
                   school: dummyArticleList[index].author.school,
                   timestamp: dummyArticleList[index].timestamp,
-                  imageUrl: dummyArticleList[index].imageUrl,
+                  imageUrls: dummyArticleList[index].imageUrls,
                   content: dummyArticleList[index].content,
                   upCount: dummyArticleList[index].upCount,
                   comments: dummyArticleList[index].comments,

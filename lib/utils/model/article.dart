@@ -6,7 +6,7 @@ class Article {
   final String content;
   final String timestamp;
   final int upCount;
-  final String? imageUrl;
+  final List<String> imageUrls;
   final List<Comment> comments;
   final bool isStarred;
   final bool isReported;
@@ -16,7 +16,7 @@ class Article {
     required this.content,
     required this.timestamp,
     required this.upCount,
-    this.imageUrl,
+    required this.imageUrls,
     required this.comments,
     this.isStarred = false,
     this.isReported = false,
