@@ -48,6 +48,10 @@ class _ArticleDetailState extends State<ArticleDetail> {
   List<Comment> comments = [];
   int activeIndex = 0;
 
+  int anonymousCounter = 1;
+  Map<int, int> anonymousCommentNumbers = {};
+  Map<int, Map<int, int>> anonymousReplyNumbers = {};
+
   Widget imageSlider(path, index) => Container(
         width: MediaQuery.of(context).size.width <
                 MediaQuery.of(context).size.height
@@ -82,12 +86,24 @@ class _ArticleDetailState extends State<ArticleDetail> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      isUpped = widget.isStarred;
-      isReported = widget.isReported;
-      upCount = widget.upCount;
-      comments = widget.comments;
-    });
+    isUpped = widget.isStarred;
+    isReported = widget.isReported;
+    upCount = widget.upCount;
+    comments = widget.comments;
+
+    for (var i = 0; i < comments.length; i++) {
+      if (comments[i].isAnnonymous) {
+        anonymousCommentNumbers[i] = anonymousCounter++;
+      }
+      if (comments[i].replies != null) {
+        anonymousReplyNumbers[i] = {};
+        for (var j = 0; j < comments[i].replies!.length; j++) {
+          if (comments[i].replies![j].isAnnonymous) {
+            anonymousReplyNumbers[i]![j] = anonymousCounter++;
+          }
+        }
+      }
+    }
   }
 
   @override
@@ -216,23 +232,42 @@ class _ArticleDetailState extends State<ArticleDetail> {
                             )
                           : Column(
                               children: [
-                                for (var comment in comments)
+                                for (var i = 0; i < comments.length; i++)
                                   _buildComment(
-                                    avatarUrl: comment.author.avatarUrl,
-                                    username: comment.author.username,
-                                    school: comment.author.school,
-                                    text: comment.text,
-                                    timestamp: comment.timestamp,
-                                    isAnnonymous: comment.isAnnonymous,
+                                    index: i,
+                                    avatarUrl: comments[i].author.avatarUrl,
+                                    username: comments[i].author.username,
+                                    school: comments[i].author.school,
+                                    text: comments[i].text,
+                                    timestamp: comments[i].timestamp,
+                                    isAnnonymous: comments[i].isAnnonymous,
                                     replies: [
-                                      for (var reply in comment.replies ?? [])
+                                      for (var j = 0;
+                                          j <
+                                              (comments[i].replies?.length ??
+                                                  0);
+                                          j++)
                                         _buildReply(
-                                          avatarUrl: reply.author.avatarUrl,
-                                          username: reply.author.username,
-                                          school: reply.author.school,
-                                          text: reply.text,
-                                          timestamp: reply.timestamp,
-                                          isAnnonymous: reply.isAnnonymous,
+                                          commentIndex: i,
+                                          replyIndex: j,
+                                          avatarUrl: comments[i]
+                                              .replies![j]
+                                              .author
+                                              .avatarUrl,
+                                          username: comments[i]
+                                              .replies![j]
+                                              .author
+                                              .username,
+                                          school: comments[i]
+                                              .replies![j]
+                                              .author
+                                              .school,
+                                          text: comments[i].replies![j].text,
+                                          timestamp:
+                                              comments[i].replies![j].timestamp,
+                                          isAnnonymous: comments[i]
+                                              .replies![j]
+                                              .isAnnonymous,
                                         ),
                                     ],
                                   ),
@@ -278,19 +313,22 @@ class _ArticleDetailState extends State<ArticleDetail> {
                         onPressed: () {
                           DateTime now = DateTime.now();
                           setState(() {
-                            comments.add(
-                              Comment(
-                                author: Profile(
-                                  school: "배재대학교",
-                                  avatarUrl: dummyDefaultProfileImageUrl,
-                                  username: '유니온',
-                                ),
-                                text: _commentController.text,
-                                isAnnonymous: isAnonymous,
-                                timestamp:
-                                    "${now.month > 10 ? now.month : "0${now.month}"}/${now.day > 10 ? now.day : "0${now.day}"} ${now.hour > 10 ? now.hour : "0${now.hour}"}:${now.minute > 10 ? now.minute : "0${now.minute}"}",
+                            Comment newComment = Comment(
+                              author: Profile(
+                                school: "배재대학교",
+                                avatarUrl: dummyDefaultProfileImageUrl,
+                                username: '유니온',
                               ),
+                              text: _commentController.text,
+                              isAnnonymous: isAnonymous,
+                              timestamp:
+                                  "${now.month > 9 ? now.month : "0${now.month}"}/${now.day > 9 ? now.day : "0${now.day}"} ${now.hour > 9 ? now.hour : "0${now.hour}"}:${now.minute > 9 ? now.minute : "0${now.minute}"}",
                             );
+                            if (newComment.isAnnonymous) {
+                              anonymousCommentNumbers[comments.length] =
+                                  anonymousCounter++;
+                            }
+                            comments.add(newComment);
                             _commentController.clear();
                           });
                           _scrollController.jumpTo(
@@ -310,6 +348,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
   }
 
   Widget _buildComment({
+    required int index,
     required String avatarUrl,
     required String username,
     required String school,
@@ -336,7 +375,9 @@ class _ArticleDetailState extends State<ArticleDetail> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${isAnnonymous ? "유니버스" : username} ($school)",
+                      isAnnonymous
+                          ? "유니버스 ${anonymousCommentNumbers[index]}"
+                          : "$username ($school)",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(text),
@@ -356,6 +397,8 @@ class _ArticleDetailState extends State<ArticleDetail> {
   }
 
   Widget _buildReply({
+    required int commentIndex,
+    required int replyIndex,
     required String avatarUrl,
     required String username,
     required String school,
@@ -389,7 +432,9 @@ class _ArticleDetailState extends State<ArticleDetail> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${isAnnonymous ? "유니버스" : username} ($school)",
+                  isAnnonymous
+                      ? "유니버스 ${anonymousReplyNumbers[commentIndex]![replyIndex]}"
+                      : "$username ($school)",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text(text),
