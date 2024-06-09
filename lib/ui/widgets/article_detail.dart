@@ -275,7 +275,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${isAnnonymous ? "익명" : username} ($school)",
+                      "${isAnnonymous ? "유니버스" : username} ($school)",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(text),
@@ -328,7 +328,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${isAnnonymous ? "익명" : username} ($school)",
+                  "${isAnnonymous ? "유니버스" : username} ($school)",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text(text),
