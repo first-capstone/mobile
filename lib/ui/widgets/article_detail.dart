@@ -49,8 +49,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
   int activeIndex = 0;
 
   int anonymousCounter = 1;
-  Map<int, int> anonymousCommentNumbers = {};
-  Map<int, Map<int, int>> anonymousReplyNumbers = {};
+  Map<String, int> anonymousUsers = {};
 
   Widget imageSlider(path, index) => Container(
         width: MediaQuery.of(context).size.width <
@@ -91,18 +90,23 @@ class _ArticleDetailState extends State<ArticleDetail> {
     upCount = widget.upCount;
     comments = widget.comments;
 
-    for (var i = 0; i < comments.length; i++) {
-      if (comments[i].isAnnonymous) {
-        anonymousCommentNumbers[i] = anonymousCounter++;
+    for (var comment in comments) {
+      if (comment.isAnnonymous) {
+        _assignAnonymousNumber(comment.author.username);
       }
-      if (comments[i].replies != null) {
-        anonymousReplyNumbers[i] = {};
-        for (var j = 0; j < comments[i].replies!.length; j++) {
-          if (comments[i].replies![j].isAnnonymous) {
-            anonymousReplyNumbers[i]![j] = anonymousCounter++;
+      if (comment.replies != null) {
+        for (var reply in comment.replies!) {
+          if (reply.isAnnonymous) {
+            _assignAnonymousNumber(reply.author.username);
           }
         }
       }
+    }
+  }
+
+  void _assignAnonymousNumber(String username) {
+    if (!anonymousUsers.containsKey(username)) {
+      anonymousUsers[username] = anonymousCounter++;
     }
   }
 
@@ -325,8 +329,8 @@ class _ArticleDetailState extends State<ArticleDetail> {
                                   "${now.month > 9 ? now.month : "0${now.month}"}/${now.day > 9 ? now.day : "0${now.day}"} ${now.hour > 9 ? now.hour : "0${now.hour}"}:${now.minute > 9 ? now.minute : "0${now.minute}"}",
                             );
                             if (newComment.isAnnonymous) {
-                              anonymousCommentNumbers[comments.length] =
-                                  anonymousCounter++;
+                              _assignAnonymousNumber(
+                                  newComment.author.username);
                             }
                             comments.add(newComment);
                             _commentController.clear();
@@ -376,7 +380,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                   children: [
                     Text(
                       isAnnonymous
-                          ? "유니버스 ${anonymousCommentNumbers[index]} ($school)"
+                          ? "유니버스 ${anonymousUsers[username]} ($school)"
                           : "$username ($school)",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
@@ -433,7 +437,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
               children: [
                 Text(
                   isAnnonymous
-                      ? "유니버스 ${anonymousReplyNumbers[commentIndex]![replyIndex]} ($school)"
+                      ? "유니버스 ${anonymousUsers[username]} ($school)"
                       : "$username ($school)",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
