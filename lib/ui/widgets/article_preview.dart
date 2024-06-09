@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:union/ui/widgets/article_detail.dart';
 import 'package:union/utils/model/comment.dart';
@@ -89,7 +90,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 16),
+        SizedBox(height: 1.h),
         Row(
           children: [
             const SizedBox(width: 16),
@@ -138,53 +139,58 @@ class _ArticlePreviewState extends State<ArticlePreview> {
             ),
             Align(alignment: Alignment.bottomCenter, child: indicator())
           ]),
-        Row(
-          children: [
-            IconButton(
-              icon: Icon(
-                isUpped ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
+        Container(
+          height: 4.5.h,
+          child: Row(
+            children: [
+              IconButton(
+                icon: Icon(
+                  isUpped
+                      ? FontAwesomeIcons.solidHeart
+                      : FontAwesomeIcons.heart,
+                ),
+                color: isUpped ? Colors.red : Colors.grey,
+                onPressed: () => {
+                  setState(() {
+                    isUpped = !isUpped;
+                    upCount = isUpped ? upCount + 1 : upCount - 1;
+                  })
+                },
               ),
-              color: isUpped ? Colors.red : Colors.grey,
-              onPressed: () => {
-                setState(() {
-                  isUpped = !isUpped;
-                  upCount = isUpped ? upCount + 1 : upCount - 1;
-                })
-              },
-            ),
-            IconButton(
-              icon: const Icon(FontAwesomeIcons.comment),
-              color: Colors.grey,
-              onPressed: () => {
-                Navigator.of(context, rootNavigator: true).push(
-                  CupertinoPageRoute<bool>(
-                    builder: (BuildContext context) => ArticleDetail(
-                      comments: widget.comments,
-                      profileImageUrl: widget.profileImageUrl,
-                      username: widget.username,
-                      school: widget.school,
-                      timestamp: widget.timestamp,
-                      imageUrls: widget.imageUrls,
-                      content: widget.content,
-                      upCount: upCount,
-                      isStarred: isUpped,
-                      isReported: isReported,
+              IconButton(
+                icon: const Icon(FontAwesomeIcons.comment),
+                color: Colors.grey,
+                onPressed: () => {
+                  Navigator.of(context, rootNavigator: true).push(
+                    CupertinoPageRoute<bool>(
+                      builder: (BuildContext context) => ArticleDetail(
+                        comments: widget.comments,
+                        profileImageUrl: widget.profileImageUrl,
+                        username: widget.username,
+                        school: widget.school,
+                        timestamp: widget.timestamp,
+                        imageUrls: widget.imageUrls,
+                        content: widget.content,
+                        upCount: upCount,
+                        isStarred: isUpped,
+                        isReported: isReported,
+                      ),
+                      allowSnapshotting: false,
                     ),
-                    allowSnapshotting: false,
-                  ),
-                )
-              },
-            ),
-            const Spacer(),
-            IconButton(
-              icon: const FaIcon(FontAwesomeIcons.circleExclamation),
-              color: Colors.red,
-              onPressed: () => {},
-            ),
-          ],
+                  )
+                },
+              ),
+              const Spacer(),
+              IconButton(
+                icon: const FaIcon(FontAwesomeIcons.circleExclamation),
+                color: Colors.red,
+                onPressed: () => {},
+              ),
+            ],
+          ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0.5.h),
           child:
               Text('UP $upCount개', style: const TextStyle(color: Colors.grey)),
         ),
@@ -212,7 +218,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: 4.w),
                 child: Text(
                   widget.content,
                   style: const TextStyle(
