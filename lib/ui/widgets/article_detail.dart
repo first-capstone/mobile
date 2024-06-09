@@ -1,18 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:union/utils/model/comment.dart';
+import 'package:union/utils/model/profile.dart';
+
 class ArticleDetail extends StatefulWidget {
   const ArticleDetail({
     super.key,
+    required this.profileImageUrl,
+    required this.username,
+    required this.school,
+    required this.timestamp,
+    this.imageUrl,
+    required this.content,
+    required this.upCount,
+    required this.isStarred,
+    required this.isReported,
+    required this.comments,
   });
+
+  final String profileImageUrl;
+  final String username;
+  final String school;
+  final String timestamp;
+  final String? imageUrl;
+  final String content;
+  final int upCount;
+  final bool isStarred;
+  final bool isReported;
+  final List<Comment> comments;
 
   @override
   State<ArticleDetail> createState() => _ArticleDetailState();
 }
 
 class _ArticleDetailState extends State<ArticleDetail> {
-  bool isAnonymous = true;
   final TextEditingController _commentController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
+  bool isAnonymous = true;
+  bool isUpped = false;
+  bool isReported = false;
+  int upCount = 0;
+  List<Comment> comments = [];
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      isUpped = widget.isStarred;
+      isReported = widget.isReported;
+      upCount = widget.upCount;
+      comments = widget.comments;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,48 +67,55 @@ class _ArticleDetailState extends State<ArticleDetail> {
             children: [
               Expanded(
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 16),
-                      const Row(
+                      Row(
                         children: [
-                          SizedBox(width: 16),
+                          const SizedBox(width: 16),
                           CircleAvatar(
                             radius: 20,
-                            // TODO: 사용자 프로필 이미지, 데이터 연동 필요
-                            backgroundImage: NetworkImage(
-                              "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
-                            ),
+                            backgroundImage:
+                                NetworkImage(widget.profileImageUrl),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('유니', // TODO: 사용자 이름, 데이터 연동 필요
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                              Text('배재대학교', // TODO: 사용자 학교, 데이터 연동 필요
-                                  style: TextStyle(color: Colors.grey)),
+                              Text(widget.username,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              Text(widget.school,
+                                  style: const TextStyle(color: Colors.grey)),
                             ],
                           ),
-                          Spacer(),
-                          Text('03/27 20:48', // TODO: 데이터 연동 필요, 게시글 작성 시간 데이터
-                              style: TextStyle(color: Colors.grey)),
-                          SizedBox(width: 16),
+                          const Spacer(),
+                          Text(widget.timestamp,
+                              style: const TextStyle(color: Colors.grey)),
+                          const SizedBox(width: 16),
                         ],
                       ),
                       const SizedBox(height: 16),
-                      // TODO: 게시글 이미지가 있다면 null 체크를 이용해서 이미지를 불러오고, 없으면 아래 Image.network() 위젯을 불러 오지 않도록 해주세요.
-                      Image.network(
-                          "https://yt3.googleusercontent.com/QNwqVIbPkuOR1hRHDd6hxo_4t6w-A4Qb3pMuPHQ74EY-QQrqcYlxluQqRbpPZC4H4xAxvbG_-Jw=s900-c-k-c0x00ffffff-no-rj"),
+                      if (widget.imageUrl != null)
+                        Image.network(widget.imageUrl!),
                       Row(
                         children: [
                           IconButton(
-                            icon: const Icon(FontAwesomeIcons.heart),
-                            color: Colors.grey,
-                            onPressed: () => {},
+                            icon: Icon(
+                              isUpped
+                                  ? FontAwesomeIcons.solidHeart
+                                  : FontAwesomeIcons.heart,
+                            ),
+                            color: isUpped ? Colors.red : Colors.grey,
+                            onPressed: () => {
+                              setState(() {
+                                isUpped = !isUpped;
+                                upCount = isUpped ? upCount + 1 : upCount - 1;
+                              })
+                            },
                           ),
                           const Spacer(),
                           IconButton(
@@ -78,21 +126,21 @@ class _ArticleDetailState extends State<ArticleDetail> {
                           ),
                         ],
                       ),
-                      const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                        child: Text('UP 25687개', // TODO: 데이터 연동 필요
-                            style: TextStyle(color: Colors.grey)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 0),
+                        child: Text('UP $upCount개',
+                            style: const TextStyle(color: Colors.grey)),
                       ),
-                      const Column(
+                      Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
-                              // TODO: 게시글 내용, 데이터 연동 필요
-                              '울 학교 나섬이 너무 귀엽지 않아 ㅠㅠ??',
-                              style: TextStyle(
+                              widget.content,
+                              style: const TextStyle(
                                 fontSize: 16,
                               ),
                             ),
@@ -100,39 +148,32 @@ class _ArticleDetailState extends State<ArticleDetail> {
                         ],
                       ),
                       const Divider(),
-                      // TODO: 댓글 목록
-                      // TODO: _buildComment는 댓글, _buildReply는 대댓글을 생성하는 함수입니다.
-                      _buildComment(
-                        avatarUrl:
-                            "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
-                        username: '유니버스 1 (충남대학교)',
-                        text: '너네도 키링같은거 나눠줘?? 나도 가지고싶다!',
-                        timestamp: '03/27 21:05',
-                        replies: [
-                          _buildReply(
-                            avatarUrl:
-                                "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
-                            username: '유니 (클로버)',
-                            text: '다음에 우리 만나게 되면 내가 선물할게',
-                            timestamp: '03/27 21:06',
-                          ),
-                          _buildReply(
-                            avatarUrl:
-                                "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
-                            username: '유니버스 1 (충남대학교)',
-                            text: '헐 미친 고마워!',
-                            timestamp: '03/27 21:08',
-                          ),
-                        ],
-                      ),
-                      _buildComment(
-                        avatarUrl:
-                            "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
-                        username: '유니버스 2 (한양대학교)',
-                        text: '나섬이 정말 귀엽다!',
-                        timestamp: '03/27 21:10',
-                        replies: [],
-                      ),
+                      comments.isEmpty
+                          ? const Center(
+                              child: Text('댓글이 없습니다.'),
+                            )
+                          : Column(
+                              children: [
+                                for (var comment in comments)
+                                  _buildComment(
+                                    avatarUrl: comment.author.avatarUrl,
+                                    username: comment.author.username,
+                                    school: comment.author.school,
+                                    text: comment.text,
+                                    timestamp: comment.timestamp,
+                                    replies: [
+                                      for (var reply in comment.replies ?? [])
+                                        _buildReply(
+                                          avatarUrl: reply.author.avatarUrl,
+                                          username: reply.author.username,
+                                          school: reply.author.school,
+                                          text: reply.text,
+                                          timestamp: reply.timestamp,
+                                        ),
+                                    ],
+                                  ),
+                              ],
+                            ),
                     ],
                   ),
                 ),
@@ -171,7 +212,26 @@ class _ArticleDetailState extends State<ArticleDetail> {
                         icon: const Icon(Icons.send),
                         color: Colors.grey,
                         onPressed: () {
-                          // TODO: 데이터를 실질적으로 보내고 댓글을 불러오는 로직 구현 필요
+                          DateTime now = DateTime.now();
+                          setState(() {
+                            comments.add(
+                              Comment(
+                                author: Profile(
+                                  school: "배재대학교",
+                                  avatarUrl:
+                                      "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+                                  username: '유니온',
+                                ),
+                                text: _commentController.text,
+                                timestamp:
+                                    "${now.month > 10 ? now.month : "0${now.month}"}/${now.day > 10 ? now.day : "0${now.day}"} ${now.hour > 10 ? now.hour : "0${now.hour}"}:${now.minute > 10 ? now.minute : "0${now.minute}"}",
+                              ),
+                            );
+                            _commentController.clear();
+                          });
+                          _scrollController.jumpTo(
+                              _scrollController.position.maxScrollExtent + 100);
+                          FocusManager.instance.primaryFocus?.unfocus();
                         },
                       ),
                     ],
@@ -188,6 +248,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
   Widget _buildComment({
     required String avatarUrl,
     required String username,
+    required String school,
     required String text,
     required String timestamp,
     required List<Widget> replies,
@@ -210,7 +271,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      username,
+                      "$username ($school)",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(text),
@@ -232,6 +293,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
   Widget _buildReply({
     required String avatarUrl,
     required String username,
+    required String school,
     required String text,
     required String timestamp,
   }) {
@@ -261,7 +323,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  username,
+                  "$username ($school)",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text(text),

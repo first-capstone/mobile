@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:union/ui/widgets/article_preview.dart';
 import 'package:union/ui/widgets/drawer.dart';
+import 'package:union/utils/data/dummy.dart';
 
 class UnionHomePage extends StatefulWidget {
   const UnionHomePage({super.key});
@@ -52,12 +53,27 @@ class _UnionHomepageState extends State<UnionHomePage> {
               iconSize: 21.sp,
             ),
           ]),
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (BuildContext context, int index) {
-          return const ArticlePreview();
-        },
-      ),
+      body: dummyArticleList.isEmpty
+          ? const Center(
+              child: Text('이곳은 조용하네요.'),
+            )
+          : ListView.builder(
+              itemCount: dummyArticleList.length,
+              itemBuilder: (context, index) {
+                return ArticlePreview(
+                  profileImageUrl: dummyArticleList[index].author.avatarUrl,
+                  username: dummyArticleList[index].author.username,
+                  school: dummyArticleList[index].author.school,
+                  timestamp: dummyArticleList[index].timestamp,
+                  imageUrl: dummyArticleList[index].imageUrl,
+                  content: dummyArticleList[index].content,
+                  upCount: dummyArticleList[index].upCount,
+                  comments: dummyArticleList[index].comments,
+                  isStarred: dummyArticleList[index].isStarred,
+                  isReported: dummyArticleList[index].isReported,
+                );
+              },
+            ),
     );
   }
 }

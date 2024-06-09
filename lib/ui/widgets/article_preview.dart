@@ -2,17 +2,54 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:union/ui/widgets/article_detail.dart';
+import 'package:union/utils/model/comment.dart';
 
 class ArticlePreview extends StatefulWidget {
   const ArticlePreview({
     super.key,
+    required this.profileImageUrl,
+    required this.username,
+    required this.school,
+    required this.timestamp,
+    this.imageUrl,
+    required this.content,
+    required this.upCount,
+    required this.isStarred,
+    required this.isReported,
+    required this.comments,
   });
+
+  final String profileImageUrl;
+  final String username;
+  final String school;
+  final String timestamp;
+  final String? imageUrl;
+  final String content;
+  final int upCount;
+  final bool isStarred;
+  final bool isReported;
+  final List<Comment> comments;
 
   @override
   State<ArticlePreview> createState() => _ArticlePreviewState();
 }
 
 class _ArticlePreviewState extends State<ArticlePreview> {
+  bool isUpped = false;
+  bool isReported = false;
+  int upCount = 0;
+  // List<Comment> comments = [];
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      isUpped = widget.isStarred;
+      isReported = widget.isReported;
+      upCount = widget.upCount;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,42 +57,44 @@ class _ArticlePreviewState extends State<ArticlePreview> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 16),
-        const Row(
+        Row(
           children: [
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             CircleAvatar(
               radius: 20,
               backgroundImage: NetworkImage(
-                // TODO: 사용자 프로필 이미지, 데이터 연동 필요
-                "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+                widget.profileImageUrl,
               ), // Placeholder image
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('유니', // TODO: 사용자 이름, 데이터 연동 필요
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                Text('배재대학교', // TODO: 사용자 학교, 데이터 연동 필요
-                    style: TextStyle(color: Colors.grey)),
+                Text(widget.username,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(widget.school, style: const TextStyle(color: Colors.grey)),
               ],
             ),
-            Spacer(),
-            Text('03/27 20:48', // TODO: 데이터 연동 필요, 게시글 작성 시간 데이터
-                style: TextStyle(color: Colors.grey)),
-            SizedBox(width: 16),
+            const Spacer(),
+            Text(widget.timestamp, style: const TextStyle(color: Colors.grey)),
+            const SizedBox(width: 16),
           ],
         ),
         const SizedBox(height: 16),
-        // TODO: 게시글 이미지가 있다면 null 체크를 이용해서 이미지를 불러오고, 없으면 아래 Image.network() 위젯을 불러 오지 않도록 해주세요.
-        Image.network(
-            "https://yt3.googleusercontent.com/QNwqVIbPkuOR1hRHDd6hxo_4t6w-A4Qb3pMuPHQ74EY-QQrqcYlxluQqRbpPZC4H4xAxvbG_-Jw=s900-c-k-c0x00ffffff-no-rj"),
+        if (widget.imageUrl != null) Image.network(widget.imageUrl!),
         Row(
           children: [
             IconButton(
-              icon: const Icon(FontAwesomeIcons.heart),
-              color: Colors.grey,
-              onPressed: () => {},
+              icon: Icon(
+                isUpped ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
+              ),
+              color: isUpped ? Colors.red : Colors.grey,
+              onPressed: () => {
+                setState(() {
+                  isUpped = !isUpped;
+                  upCount = isUpped ? upCount + 1 : upCount - 1;
+                })
+              },
             ),
             IconButton(
               icon: const Icon(FontAwesomeIcons.comment),
@@ -63,7 +102,19 @@ class _ArticlePreviewState extends State<ArticlePreview> {
               onPressed: () => {
                 Navigator.of(context, rootNavigator: true).push(
                   CupertinoPageRoute<bool>(
-                    builder: (BuildContext context) => const ArticleDetail(),
+                    builder: (BuildContext context) => ArticleDetail(
+                      comments: widget.comments,
+                      profileImageUrl: widget.profileImageUrl,
+                      username: widget.username,
+                      school: widget.school,
+                      timestamp: widget.timestamp,
+                      imageUrl: widget.imageUrl,
+                      content: widget.content,
+                      upCount: upCount,
+                      isStarred: isUpped,
+                      isReported: isReported,
+                    ),
+                    allowSnapshotting: false,
                   ),
                 )
               },
@@ -76,28 +127,39 @@ class _ArticlePreviewState extends State<ArticlePreview> {
             ),
           ],
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-          child: Text('UP 25687개', // TODO: 데이터 연동 필요
-              style: TextStyle(color: Colors.grey)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+          child:
+              Text('UP $upCount개', style: const TextStyle(color: Colors.grey)),
         ),
         GestureDetector(
           onTap: () {
             Navigator.of(context, rootNavigator: true).push(
               CupertinoPageRoute<bool>(
-                builder: (BuildContext context) => const ArticleDetail(),
+                builder: (BuildContext context) => ArticleDetail(
+                  comments: widget.comments,
+                  profileImageUrl: widget.profileImageUrl,
+                  username: widget.username,
+                  school: widget.school,
+                  timestamp: widget.timestamp,
+                  imageUrl: widget.imageUrl,
+                  content: widget.content,
+                  upCount: upCount,
+                  isStarred: isUpped,
+                  isReported: isReported,
+                ),
+                allowSnapshotting: false,
               ),
             );
           },
-          child: const Column(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
-                  // TODO: 게시글 내용, 데이터 연동 필요
-                  '울 학교 나섬이 너무 귀엽지 않아 ㅠㅠ??',
-                  style: TextStyle(
+                  widget.content,
+                  style: const TextStyle(
                     fontSize: 16,
                   ),
                 ),
