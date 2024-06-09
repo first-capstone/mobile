@@ -14,7 +14,7 @@ class ArticlePreview extends StatefulWidget {
     this.imageUrl,
     required this.content,
     required this.upCount,
-    required this.isStarred,
+    required this.isUpped,
     required this.isReported,
     required this.comments,
   });
@@ -26,7 +26,7 @@ class ArticlePreview extends StatefulWidget {
   final String? imageUrl;
   final String content;
   final int upCount;
-  final bool isStarred;
+  final bool isUpped;
   final bool isReported;
   final List<Comment> comments;
 
@@ -44,7 +44,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
   void initState() {
     super.initState();
     setState(() {
-      isUpped = widget.isStarred;
+      isUpped = widget.isUpped;
       isReported = widget.isReported;
       upCount = widget.upCount;
     });

@@ -69,7 +69,7 @@ class _UnionHomepageState extends State<UnionHomePage> {
                   content: dummyArticleList[index].content,
                   upCount: dummyArticleList[index].upCount,
                   comments: dummyArticleList[index].comments,
-                  isStarred: dummyArticleList[index].isStarred,
+                  isUpped: dummyArticleList[index].isStarred,
                   isReported: dummyArticleList[index].isReported,
                 );
               },
