@@ -161,6 +161,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                                     school: comment.author.school,
                                     text: comment.text,
                                     timestamp: comment.timestamp,
+                                    isAnnonymous: comment.isAnnonymous,
                                     replies: [
                                       for (var reply in comment.replies ?? [])
                                         _buildReply(
@@ -169,6 +170,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                                           school: reply.author.school,
                                           text: reply.text,
                                           timestamp: reply.timestamp,
+                                          isAnnonymous: reply.isAnnonymous,
                                         ),
                                     ],
                                   ),
@@ -223,6 +225,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                                   username: '유니온',
                                 ),
                                 text: _commentController.text,
+                                isAnnonymous: isAnonymous,
                                 timestamp:
                                     "${now.month > 10 ? now.month : "0${now.month}"}/${now.day > 10 ? now.day : "0${now.day}"} ${now.hour > 10 ? now.hour : "0${now.hour}"}:${now.minute > 10 ? now.minute : "0${now.minute}"}",
                               ),
@@ -252,6 +255,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
     required String text,
     required String timestamp,
     required List<Widget> replies,
+    required bool isAnnonymous,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -271,7 +275,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "$username ($school)",
+                      "${isAnnonymous ? "익명" : username} ($school)",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(text),
@@ -296,6 +300,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
     required String school,
     required String text,
     required String timestamp,
+    required bool isAnnonymous,
   }) {
     return Padding(
       padding: const EdgeInsets.only(left: 40, top: 8),
@@ -323,7 +328,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "$username ($school)",
+                  "${isAnnonymous ? "익명" : username} ($school)",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text(text),
