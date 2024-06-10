@@ -10,6 +10,7 @@ class Article {
   final List<Comment> comments;
   final bool isStarred;
   final bool isReported;
+  final bool isAnonymous;
 
   Article({
     required this.author,
@@ -20,5 +21,6 @@ class Article {
     required this.comments,
     this.isStarred = false,
     this.isReported = false,
+    this.isAnonymous = false,
   });
 }
