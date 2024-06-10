@@ -19,6 +19,7 @@ class ArticlePreview extends StatefulWidget {
     required this.upCount,
     required this.isUpped,
     required this.isReported,
+    required this.isAnonymous,
     required this.comments,
   });
 
@@ -31,6 +32,7 @@ class ArticlePreview extends StatefulWidget {
   final int upCount;
   final bool isUpped;
   final bool isReported;
+  final bool isAnonymous;
   final List<Comment> comments;
 
   @override
@@ -104,7 +106,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.username,
+                Text(widget.isAnonymous ? "유니버스" : widget.username,
                     style: const TextStyle(fontWeight: FontWeight.bold)),
                 Text(widget.school, style: const TextStyle(color: Colors.grey)),
               ],
@@ -139,7 +141,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
             ),
             Align(alignment: Alignment.bottomCenter, child: indicator())
           ]),
-        Container(
+        SizedBox(
           height: 4.5.h,
           child: Row(
             children: [
@@ -174,6 +176,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
                         upCount: upCount,
                         isStarred: isUpped,
                         isReported: isReported,
+                        isAnonymous: widget.isAnonymous,
                       ),
                       allowSnapshotting: false,
                     ),
@@ -209,6 +212,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
                   upCount: upCount,
                   isStarred: isUpped,
                   isReported: isReported,
+                  isAnonymous: widget.isAnonymous,
                 ),
                 allowSnapshotting: false,
               ),
