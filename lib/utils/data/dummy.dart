@@ -8,6 +8,121 @@ final List<Article> dummyArticleList = [
   Article(
     author: Profile(
       username: "유니",
+      school: "한국과학기술원",
+      avatarUrl:
+          "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+    ),
+    content: "2024 카이스트 축제 23일 라인업",
+    timestamp: "05/10 19:22",
+    isReported: false,
+    isStarred: false,
+    upCount: 1586,
+    imageUrls: [
+      "https://cdn.dailycc.net/news/photo/202405/787210_694570_5658.jpg",
+      "https://cdn.dailycc.net/news/photo/202405/787210_694569_5657.jpg",
+      "https://cdn.dailycc.net/news/photo/202405/787210_694568_5657.jpg"
+    ],
+    comments: [
+      Comment(
+        author: Profile(
+          school: "혜전대학교",
+          avatarUrl:
+              "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+          username: '유니버스 1',
+        ),
+        text: '와씨... 좋겠다 우리는 무슨 릴김치? 오는데 ㅜㅜㅜㅜㅜㅜ 최예나 프로미스나인 사랑해!!!!!!!!',
+        timestamp: '05/10 19:23',
+        replies: [
+          Comment(
+            author: Profile(
+              username: "유니",
+              school: "홍익대학교",
+              avatarUrl:
+                  "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+            ),
+            text: '우리 학교 놀러와!!',
+            timestamp: '05/10 19:25',
+          ),
+          Comment(
+            author: Profile(
+              school: "포항공과대학교",
+              avatarUrl:
+                  "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+              username: '유니버스 3',
+            ),
+            text: '난 ㄹㅇ 간다. 대전에 숙소 잡았다.',
+            timestamp: '05/10 19:25',
+          ),
+          Comment(
+            author: Profile(
+              username: "유니",
+              school: "한국과학기술원",
+              avatarUrl:
+                  "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+            ),
+            text: '욜 대박!! 밤새 놀자고!! 대전 둔산동 가서 술 마셔!!',
+            timestamp: '05/10 19:27',
+          ),
+          Comment(
+            author: Profile(
+              username: "유니버스 4",
+              school: "평택대학교",
+              avatarUrl:
+                  "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+            ),
+            text: '와 좋겠다 ㅠㅠ 나도 데리고 가!!',
+            timestamp: '05/10 19:27',
+          ),
+          Comment(
+            author: Profile(
+              username: "유니버스 3",
+              school: "포항공과대학교",
+              avatarUrl:
+                  "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+            ),
+            text: '따라오든가 ㅋㅋㅋㅋ',
+            timestamp: '05/10 19:27',
+          ),
+        ],
+      ),
+      Comment(
+        author: Profile(
+          school: "초당대학교",
+          avatarUrl:
+              "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+          username: '유니버스 2',
+        ),
+        text: '진짜 라인업 대박이다.. 우리는 두부만들기 체험하는데... 부럽다... 재밌게 놀다와...',
+        timestamp: '05/10 19:28',
+        replies: [
+          Comment(
+            author: Profile(
+              username: "유니버스 4",
+              school: "평택대학교",
+              avatarUrl:
+                  "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+            ),
+            text: 'ㅋㅋㅋㅋㅋㅋㅋㅋㅋ 나도 두부만들기 체험하러 갈게 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
+            timestamp: '05/10 19:28',
+          ),
+        ],
+      ),
+      Comment(
+        author: Profile(
+          username: "유니버스 5",
+          school: "창원대학교",
+          avatarUrl:
+              "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",
+        ),
+        text:
+            '아니 뭐 대전 노잼도시라며 올해에 워터밤 페스티벌도 하는데 대유잼도시네;; 나도 대전에 있는 대학교로 편입한다 진심.',
+        timestamp: '05/10 19:28',
+      ),
+    ],
+  ),
+  Article(
+    author: Profile(
+      username: "유니",
       school: "홍익대학교",
       avatarUrl:
           "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg",

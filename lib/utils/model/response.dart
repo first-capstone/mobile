@@ -26,6 +26,25 @@ class ResponseWithAccessToken {
   }
 }
 
+class UnivCertResponse {
+  final bool success;
+  int? statusCode;
+  String? message;
+
+  UnivCertResponse({
+    required this.success,
+    this.statusCode = 200,
+    this.message = "",
+  });
+
+  factory UnivCertResponse.fromJson(Map<String, dynamic> json) {
+    return UnivCertResponse(
+        success: json["success"] as bool,
+        statusCode: json["status"] != null ? json["status"] as int : null,
+        message: json["message"] != null ? json["message"] as String : null);
+  }
+}
+
 class GeneralResponse {
   final String message;
   final int statusCode;

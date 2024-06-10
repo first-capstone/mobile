@@ -7,6 +7,7 @@ import 'package:union/utils/model/response.dart';
 import 'package:union/utils/form_checker.dart';
 import 'package:union/ui/dialog/dialog.dart';
 import 'package:union/utils/requester.dart';
+import 'package:union/utils/secure_storage.dart';
 
 class UnionRegisterPage extends StatefulWidget {
   const UnionRegisterPage({super.key});
@@ -521,7 +522,18 @@ class _UnionRegisterPageState extends State<UnionRegisterPage> {
                         errorPhoneText == null &&
                         checkDuplicateID &&
                         checkDuplicateNickname
-                    ? () {
+                    ? () async {
+                        await SecureStorage().storage.write(
+                            key: "user_id", value: _userIDController.text);
+                        await SecureStorage().storage.write(
+                            key: "password",
+                            value: _userPasswordController.text);
+                        await SecureStorage().storage.write(
+                            key: "nickname",
+                            value: _userNicknameController.text);
+                        await SecureStorage().storage.write(
+                            key: "phone", value: _userPhoneController.text);
+
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
