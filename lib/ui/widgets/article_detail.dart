@@ -111,7 +111,8 @@ class _ArticleDetailState extends State<ArticleDetail> {
     }
   }
 
-  final String dummyDefaultProfileImageUrl = "";
+  final String dummyDefaultProfileImageUrl =
+      "https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +202,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                           ),
                         ],
                       ),
-                      Container(
+                      SizedBox(
                         height: 4.5.h,
                         child: Row(
                           children: [
