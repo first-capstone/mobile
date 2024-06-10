@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:union/ui/pages/register_second.dart';
+import 'package:union/ui/pages/search.dart';
 
 import 'package:union/utils/secure_storage.dart';
 import 'package:union/ui/pages/login.dart';
@@ -49,7 +50,7 @@ class _UnionMainPageState extends State<UnionMainPage> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.data != "true") {
-              return const UnionLoginPage();
+              return const UnionSearchPage();
             } else {
               return const UnionHomePage();
             }

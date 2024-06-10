@@ -16,7 +16,7 @@ Future<ResponseWithAccessToken> login(String ID, String password) async {
 
 Future<GeneralResponse> register(String ID, String password, String nickname,
     String email, String phone, String uUuid, String sID) async {
-  Map data = {
+  Map<String, String> data = {
     "user_id": ID,
     "password": password,
     "nickname": nickname,
@@ -26,8 +26,11 @@ Future<GeneralResponse> register(String ID, String password, String nickname,
     "s_id": sID
   };
 
-  http.Response response = await http.put(Uri.parse("$host/account/register"),
-      body: json.encode(data));
+  http.Response response = await http.put(
+    Uri.parse("$host/account/register"),
+    headers: {"Content-Type": "application/json"},
+    body: json.encode(data),
+  );
 
   String responseBody = utf8.decoder.convert(response.bodyBytes);
   return GeneralResponse.fromJson(json.decode(responseBody));
@@ -44,7 +47,7 @@ Future<UnivCertResponse> checkEmail(String email, String univName) async {
   http.Response response = await http.post(
     Uri.parse("https://univcert.com/api/v1/certify"),
     headers: {"Content-Type": "application/json"}, // Set content-type header
-    body: json.encode(data), // Serialize data to JSON string
+    body: utf8.encode(json.encode(data)), // Serialize data to JSON string
   );
 
   String responseBody = utf8.decoder.convert(response.bodyBytes);

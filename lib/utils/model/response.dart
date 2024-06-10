@@ -60,7 +60,7 @@ class GeneralResponse {
     return GeneralResponse(
         message: json["message"] as String,
         statusCode: json["status_code"] as int,
-        detail: json["message"] as String);
+        detail: json["detail"] != null ? json["detail"] as String : null);
   }
 }
 

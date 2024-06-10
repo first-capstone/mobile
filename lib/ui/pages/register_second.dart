@@ -36,7 +36,7 @@ class _UnionRegisterSecondPageState extends State<UnionRegisterSecondPage> {
   String? verifyTimer;
   int verifyCode = 1704;
   bool called = false;
-  bool verified = true;
+  bool verified = false;
 
   void _loadUnivs() async {
     await getUnivNameList().then((univs) {
@@ -282,7 +282,7 @@ class _UnionRegisterSecondPageState extends State<UnionRegisterSecondPage> {
                                     floatingLabelStyle: TextStyle(
                                       fontSize: 18.sp,
                                     ),
-                                    hintText: "00000",
+                                    hintText: "0000",
                                   ),
                                 ),
                               ),
@@ -331,7 +331,8 @@ class _UnionRegisterSecondPageState extends State<UnionRegisterSecondPage> {
                                   backgroundColor:
                                       WidgetStateProperty.all<Color>(
                                     Color.fromARGB(
-                                      (_verifyCodeController.text != "")
+                                      (_verifyCodeController.text != "" &&
+                                              !verified)
                                           ? 0xFF
                                           : 0x88,
                                       118,
@@ -470,22 +471,15 @@ class _UnionRegisterSecondPageState extends State<UnionRegisterSecondPage> {
                               resultContent = result.message;
                               break;
                           }
-                          if (success) {
-                            Navigator.pushReplacement(
+                          createSmoothDialog(
+                              // ignore: use_build_context_synchronously
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const UnionLoginPage(),
-                              ),
-                            );
-                          } else {
-                            createSmoothDialog(
-                                // ignore: use_build_context_synchronously
-                                context,
-                                resultTitle,
-                                Text(resultContent),
-                                TextButton(
-                                  child: const Text("닫기"),
-                                  onPressed: () async {
+                              resultTitle,
+                              Text(resultContent),
+                              TextButton(
+                                child: Text(success ? "확인" : "닫기"),
+                                onPressed: () async {
+                                  if (!success) {
                                     Navigator.pop(context);
                                     try {
                                       ScaffoldMessenger.of(context)
@@ -493,12 +487,24 @@ class _UnionRegisterSecondPageState extends State<UnionRegisterSecondPage> {
                                     } catch (e) {
                                       return;
                                     }
-                                    return;
-                                  },
-                                ),
-                                null,
-                                false);
-                          }
+                                  } else {
+                                    try {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const UnionLoginPage(),
+                                        ),
+                                      );
+                                    } catch (e) {
+                                      return;
+                                    }
+                                  }
+                                  return;
+                                },
+                              ),
+                              null,
+                              false);
                         },
                         style: ButtonStyle(
                           backgroundColor: WidgetStateProperty.all<Color>(
