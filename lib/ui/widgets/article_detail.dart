@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import 'package:union/utils/data/dummy.dart';
 import 'package:union/utils/model/comment.dart';
 import 'package:union/utils/model/profile.dart';
 

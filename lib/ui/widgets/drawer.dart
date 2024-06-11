@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'package:union/ui/pages/login.dart';
-import 'package:union/utils/data/dummy.dart';
+import 'package:union/ui/pages/school_evaluation.dart';
 import 'package:union/utils/secure_storage.dart';
 
 class UnionDrawer extends StatelessWidget {
@@ -177,6 +178,22 @@ class UnionDrawer extends StatelessWidget {
                           style: TextStyle(fontSize: 0.35.cm),
                         ),
                         onTap: () {},
+                      ),
+                      ListTile(
+                        minTileHeight: 0.2.h,
+                        title: Text(
+                          "학교 평가",
+                          style: TextStyle(fontSize: 0.35.cm),
+                        ),
+                        onTap: () {
+                          Navigator.of(context, rootNavigator: true).push(
+                            CupertinoPageRoute<bool>(
+                              builder: (BuildContext context) =>
+                                  SchoolEvaluationPage(),
+                              allowSnapshotting: false,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
