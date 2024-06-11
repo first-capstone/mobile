@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:union/ui/modal/new_article.dart';
+import 'package:union/ui/pages/alerts.dart';
 
 import 'package:union/ui/widgets/article_preview.dart';
 import 'package:union/ui/widgets/drawer.dart';
@@ -80,7 +81,14 @@ class _UnionHomepageState extends State<UnionHomePage> {
             iconSize: 21.sp,
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).push(
+                CupertinoPageRoute<bool>(
+                  builder: (BuildContext context) => AlertPage(),
+                  allowSnapshotting: false,
+                ),
+              );
+            },
             icon: const FaIcon(
               FontAwesomeIcons.bell,
             ),
