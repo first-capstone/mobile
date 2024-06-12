@@ -4,7 +4,7 @@ class AlertPage extends StatelessWidget {
   final List<Map<String, String>> notifications = [
     {
       "title": "‘배재대학교’에서 새로운 글을 올렸습니다.",
-      "time": "2024.03.28 15:37",
+      "time": "2024.05.29 18:00",
     },
     {
       "title": "누군가 내 게시글에 UP을 달았습니다.",

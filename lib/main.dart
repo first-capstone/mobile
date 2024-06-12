@@ -50,7 +50,7 @@ class _UnionMainPageState extends State<UnionMainPage> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.data != "true") {
-              return const UnionHomePage();
+              return const UnionLoginPage();
             } else {
               return const UnionHomePage();
             }

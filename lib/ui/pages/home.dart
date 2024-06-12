@@ -5,6 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:union/ui/modal/new_article.dart';
 import 'package:union/ui/pages/alerts.dart';
+import 'package:union/ui/pages/search.dart';
 
 import 'package:union/ui/widgets/article_preview.dart';
 import 'package:union/ui/widgets/drawer.dart';
@@ -34,7 +35,7 @@ class _UnionHomepageState extends State<UnionHomePage> {
           author: Profile(
             avatarUrl:
                 'https://static.vecteezy.com/system/resources/previews/015/078/556/non_2x/man-employee-illustration-on-a-background-premium-quality-symbols-icons-for-concept-and-graphic-design-vector.jpg', // Default avatar URL
-            username: '유니온',
+            username: 'rainbow5079',
             school: '배재대학교',
           ),
           timestamp:
@@ -74,7 +75,14 @@ class _UnionHomepageState extends State<UnionHomePage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).push(
+                CupertinoPageRoute<bool>(
+                  builder: (BuildContext context) => UnionSearchPage(),
+                  allowSnapshotting: false,
+                ),
+              );
+            },
             icon: const FaIcon(
               FontAwesomeIcons.magnifyingGlass,
             ),

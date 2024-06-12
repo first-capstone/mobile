@@ -116,7 +116,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
             const SizedBox(width: 16),
           ],
         ),
-        const SizedBox(height: 16),
+        const Divider(height: 16),
         if (widget.imageUrls.isNotEmpty)
           Stack(alignment: Alignment.bottomCenter, children: <Widget>[
             CarouselSlider.builder(
@@ -192,11 +192,11 @@ class _ArticlePreviewState extends State<ArticlePreview> {
             ],
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0.5.h),
-          child:
-              Text('UP $upCount개', style: const TextStyle(color: Colors.grey)),
-        ),
+        // Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0.5.h),
+        //   child:
+        //       Text('UP $upCount개', style: const TextStyle(color: Colors.grey)),
+        // ),
         GestureDetector(
           onTap: () {
             Navigator.of(context, rootNavigator: true).push(

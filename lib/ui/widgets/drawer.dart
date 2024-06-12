@@ -40,8 +40,8 @@ class UnionDrawer extends StatelessWidget {
                 ),
               ),
               // otherAccountsPictures: const <Widget>[],
-              accountName: const Text('유니온'),
-              accountEmail: const Text('union@email.com'),
+              accountName: const Text('rainbow5079'),
+              accountEmail: const Text('2161075@pcu.ac.kr'),
               decoration: BoxDecoration(
                 color: Colors.blue[200],
                 borderRadius: const BorderRadius.only(

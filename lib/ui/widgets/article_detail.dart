@@ -330,7 +330,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                               author: Profile(
                                 school: "배재대학교",
                                 avatarUrl: dummyDefaultProfileImageUrl,
-                                username: '유니온',
+                                username: 'rainbow5079',
                               ),
                               text: _commentController.text,
                               isAnnonymous: isAnonymous,
@@ -388,9 +388,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      isAnnonymous
-                          ? "유니버스 ${anonymousUsers[username]} ($school)"
-                          : "$username ($school)",
+                      isAnnonymous ? "유니버스 4 ($school)" : "$username ($school)",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(text),
