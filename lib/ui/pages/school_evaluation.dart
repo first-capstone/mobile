@@ -1,9 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:union/ui/pages/school_evaluation_add.dart';
+import 'school_evaluation_add.dart';
 
-class SchoolEvaluationPage extends StatelessWidget {
+class SchoolEvaluationPage extends StatefulWidget {
+  const SchoolEvaluationPage({super.key});
+
+  @override
+  _SchoolEvaluationPageState createState() => _SchoolEvaluationPageState();
+}
+
+class _SchoolEvaluationPageState extends State<SchoolEvaluationPage> {
   final List<Map<String, String>> reviews = [
     {
       "user": "유니(배재대학교)",
@@ -23,7 +30,15 @@ class SchoolEvaluationPage extends StatelessWidget {
     },
   ];
 
-  SchoolEvaluationPage({super.key});
+  void addReview(String review, String rating) {
+    setState(() {
+      reviews.add({
+        "user": "유니(배재대학교)",
+        "review": review,
+        "rating": rating,
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +52,9 @@ class SchoolEvaluationPage extends StatelessWidget {
           IconButton(
             onPressed: () {
               Navigator.of(context).push(CupertinoPageRoute<bool>(
-                builder: (BuildContext context) => const SchoolEvaluationForm(),
+                builder: (BuildContext context) => SchoolEvaluationForm(
+                  onSubmit: addReview,
+                ),
                 allowSnapshotting: false,
               ));
             },

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class SchoolEvaluationForm extends StatefulWidget {
-  const SchoolEvaluationForm({super.key});
+  final Function(String review, String rating) onSubmit;
+
+  const SchoolEvaluationForm({super.key, required this.onSubmit});
 
   @override
   _SchoolEvaluationFormState createState() => _SchoolEvaluationFormState();
@@ -27,12 +29,6 @@ class _SchoolEvaluationFormState extends State<SchoolEvaluationForm> {
       appBar: AppBar(
         backgroundColor: Colors.lightBlue[100],
         title: const Text('학교평가'),
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back),
-        //   onPressed: () {
-        //     // Handle back button action
-        //   },
-        // ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -117,7 +113,8 @@ class _SchoolEvaluationFormState extends State<SchoolEvaluationForm> {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  // Handle form submission
+                  widget.onSubmit(_controller.text, overallRating.toString());
+                  Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.lightBlue[100],
